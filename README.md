@@ -8,6 +8,8 @@ The problem I wish to solve is as follows:
 
 * Given a Go board position **P**, without accompanying game history except for illegal moves due to ko, find the move **M** that maximizes the probability of a resulting game win.
 
+I got 99 problems but optimal move estimator given current position state representation ain't one!
+
 Techniques
 ----------
 Instead of writing another run-of-the-mill monte carlo game tree descent search player I want to focus on recent research in machine learning (see section: Prior Art).  
@@ -18,7 +20,7 @@ Some research threads I want to focus on are:
 
 2. Using ML predictors as a pruners for regular monte carlo tree searchers.
 
-3. Exploit AWS cluster deployment to create different "grades" of player.  If you want to turn the dial up to 11 you can distribute the player across several AWS nodes (possibly using [EMR](http://aws.amazon.com/elasticmapreduce/)).  Or for all the n00bs just have the player deployment to cores on the local host.  Lets get some skynet up in this piece!!!
+3. Exploit AWS cluster deployment to create different "grades" of player.  If you want to turn the dial up to 11 you can distribute the player across several AWS nodes (possibly using [EMR](http://aws.amazon.com/elasticmapreduce/)).  Or for all the n00bs just have the player deployment to cores on the local host.  Can I get some skynet up in this piece!!!
 
 
 ![](http://cdn.screenrant.com/wp-content/uploads/terminator-5-release-date-new-trilogy.jpg)
@@ -34,7 +36,7 @@ Because I'm trying to make the '60s cool again (free love man).  Seriously: beca
 
 Concurrency Models
 ------------------
-I want some concurrencly  jambalaya: all kinds of spices and flavors.  I would like to use:
+Let's make some concurrencly jambalaya: all kinds of spices and flavors.  I would like to use:
 
 1. data parallelism: use cuDNN for GPU Neural networks.
 2. actor thread model: [Akka](http://akka.io) (god bless you) actors for multi-core & multi-chip parallelism.
@@ -52,3 +54,7 @@ Training Data Set
 *"Life can only be understood backwards; but it must be lived forwards." - Kierkegaard*
 
 The primary data set for training and evaluation will be the [GoGoD](http://gogodonline.co.uk/) dataset.  It is freakin' awesome, the earliest game is from 196 AD!  Unfortunately, as with most things in life, it ain't free (see INSTALL.md).
+
+
+
+-- A 31337 Production -- 
