@@ -8,18 +8,23 @@ trait BoardSpec {
   
   def generateEmptyBoard(dim: BoardDimension): BoardRepr = Array.ofDim[Byte](dim._1*dim._2)
 
-  def +(move : Move) : Option[BoardSpec] = { 
-    val index = posToIndex(move.position)
-    
-    if (index > board.length || 
-        board(index) != EMPTY) 
-      None
-    else 
-      Some(new StandardBoard(dimension, board.updated(index, move.side)))
-  }//end def +(move : Move) : Option[BoardSpec]
+  def +(move : Move) : BoardSpec 
   
-  def posToIndex(position : Position) = 
+  protected def posToIndex(position : Position) = 
     position._1.toInt*dimension._1.toInt + position._2.toInt
+    
+  def getPosValue(position : Position) : Side = board(posToIndex(position))
+  
+  def getPosValue(col: Dimension, row: Dimension) : Side = getPosValue((col,row))
+  
+  override def toString  = {
+    val lines = 
+      for {
+        c <- Range(0, dimension._1)
+      } yield Range(0, dimension._2).map((r: Int) => posToChar(getPosValue(c.toByte,r.toByte))).mkString(" ")
+      
+    lines.mkString("\n")
+  }
 }//end trait BoardSpec
 
 //31337
