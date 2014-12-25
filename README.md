@@ -54,3 +54,7 @@ Training Data Set
 *"Life can only be understood backwards; but it must be lived forwards." - Kierkegaard*
 
 The primary data set for training and evaluation will be the [GoGoD](http://gogodonline.co.uk/) dataset.  It is freakin' awesome, the earliest game is from 196 AD!  Unfortunately, as with most things in life, it ain't free (see INSTALL.md).
+
+
+
+-- A 31337 Production -- 
