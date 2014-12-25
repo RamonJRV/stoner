@@ -9,7 +9,7 @@ import PositionTranslator.strRepToPos
 
 import stoner.board.StoneAdder.applyMovesToBoard
 
-object StoneAdder {
+object AddWhiteOrBlack {
   
   final val ADD_WHITE_PROPERTY : String = "AW"
   final val ADD_BLACK_PROPERTY : String = "AB"
