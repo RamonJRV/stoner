@@ -8,8 +8,9 @@ package object Board {
   final val BLACK_OCCUPIED : Side = 1
   final val EMPTY          : Side = 0
   
-  type Column = Byte
-  type Row = Byte
+  type Dimension = Byte
+  type Column = Dimension
+  type Row = Dimension
   
   type BoardDimension = (Column,Row)
   type Position = BoardDimension
