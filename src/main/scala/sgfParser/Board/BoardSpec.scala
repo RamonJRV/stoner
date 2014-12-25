@@ -8,12 +8,15 @@ trait BoardSpec {
   
   def generateEmptyBoard(dim: BoardDimension): BoardRepr = Array.ofDim[Byte](dim._1*dim._2)
 
-  def +(move : Move) : Option[BoardSpec] = 
-    if (move.position._1.toInt * move.position._2.toInt > board.length || 
-        board(posToIndex(move.position)) != EMPTY) 
+  def +(move : Move) : Option[BoardSpec] = { 
+    val index = posToIndex(move.position)
+    
+    if (index > board.length || 
+        board(index) != EMPTY) 
       None
     else 
-      Some(new StandardBoard(dimension, board.updated(posToIndex(move.position), move.side)))
+      Some(new StandardBoard(dimension, board.updated(index, move.side)))
+  }//end def +(move : Move) : Option[BoardSpec]
   
   def posToIndex(position : Position) = 
     position._1.toInt*dimension._1.toInt + position._2.toInt
