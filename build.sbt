@@ -1,4 +1,4 @@
-name := "sgfParser"
+name := "stoner"
 
 version := "0.1"
 
