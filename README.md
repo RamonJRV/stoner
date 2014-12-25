@@ -8,7 +8,7 @@ The problem I wish to solve is as follows:
 
 * Given a Go board position **P**, without accompanying game history except for illegal moves due to ko, find the move **M** that maximizes the probability of a resulting game win.
 
-I got 99 problems but optimal move estimator given current position state representation ain't one!
+I got 99 problems but optimal move estimator given current position state representation ain't one! (after I finish this project)
 
 Techniques
 ----------
