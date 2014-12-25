@@ -10,7 +10,7 @@ The problem I wish to solve is as follows:
 
 Techniques
 ----------
-Rather than write yet another tree game tree descent search player I want to focus on recent research in machine learning (see section: Prior Art).  
+Instead of writing another run-of-the-mill tree game tree descent search player I want to focus on recent research in machine learning (see section: Prior Art).  
 
 Some research threads I want to focus on are:
 
