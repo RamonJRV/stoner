@@ -36,7 +36,7 @@ Because I'm trying to make the '60s cool again (free love man).  Seriously: beca
 
 Concurrency Models
 ------------------
-I want some concurrencly  jambalaya: all kinds of spices and flavors.  I would like to use:
+Let's make some concurrencly jambalaya: all kinds of spices and flavors.  I would like to use:
 
 1. data parallelism: use cuDNN for GPU Neural networks.
 2. actor thread model: [Akka](http://akka.io) (god bless you) actors for multi-core & multi-chip parallelism.
