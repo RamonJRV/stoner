@@ -7,6 +7,8 @@ import stoner.board.{BLACK,WHITE,BoardSpec,Move,Position}
 
 import PositionTranslator.strRepToPos
 
+import stoner.board.StoneAdder.applyMovesToBoard
+
 object StoneAdder {
   
   final val ADD_WHITE_PROPERTY : String = "AW"
@@ -29,9 +31,6 @@ object StoneAdder {
       Vector[Move]()
   }
 
-  def applyMovesToBoard(board : BoardSpec, moves : IndexedSeq[Move]) : BoardSpec =
-    moves.foldLeft(board)(_ + _)
-  
   def applyAddStoneStrToBoard(board : BoardSpec, str : String) : BoardSpec = 
     applyMovesToBoard(board, addStoneParser(str))
 }//end object StoneAdder
