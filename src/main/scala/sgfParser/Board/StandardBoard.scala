@@ -1,5 +1,6 @@
 package sgfParser.Board
 
-case class StandardBoard(dimension : BoardDimension = (19,19), board : BoardRepr) extends BoardSpec
+case class StandardBoard(dimension : BoardDimension = (STANDARD_COLUMN,STANDARD_ROW), 
+                         board : BoardRepr) extends BoardSpec
 
 //31337
