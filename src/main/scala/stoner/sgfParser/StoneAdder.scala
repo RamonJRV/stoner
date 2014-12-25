@@ -7,7 +7,7 @@ import stoner.board.{BLACK,WHITE,BoardSpec,Move,Position}
 
 import PositionTranslator.strRepToPos
 
-object PositionTranslatorneAdder {
+object StoneAdder {
   
   final val ADD_WHITE_PROPERTY : String = "AW"
   final val ADD_BLACK_PROPERTY : String = "AB"
@@ -15,10 +15,10 @@ object PositionTranslatorneAdder {
   def addWhiteStone(str : String) : Move = Move(WHITE, strRepToPos(str))
   def addBlackStone(str : String) : Move = Move(BLACK, strRepToPos(str))
     
-  //FIXME - ugly implementation
+  
   private def splitPosSeq(str: String) : IndexedSeq[String] =
     str.drop(3).sliding(2, 4).toIndexedSeq
-    //str.drop(2).tail.dropRight(1).split("""\]\[""").toIndexedSeq
+    
   
   def addStoneParser(str: String) : IndexedSeq[Move] = {
     if (str.startsWith(ADD_WHITE_PROPERTY))
