@@ -13,3 +13,5 @@ trait BoardSpec {
   def generateEmptyBoard(dim: BoardDimension): BoardRepr = Array.ofDim[Byte](dim._1*dim._2)
 
 }//end trait BoardSpec
+
+//31337
