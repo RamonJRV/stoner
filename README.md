@@ -10,11 +10,11 @@ The problem I wish to solve is as follows:
 
 Techniques
 ----------
-Instead of writing another run-of-the-mill tree game tree descent search player I want to focus on recent research in machine learning (see section: Prior Art).  
+Instead of writing another run-of-the-mill monte carlo game tree descent search player I want to focus on recent research in machine learning (see section: Prior Art).  
 
 Some research threads I want to focus on are:
 
-1. Most recent work has focused on training an ML player to predict an "expert" player's move, e.g. don't create a smart game player just make one that mimics a smart player.  I want to create a player that predicts which side will win given a position.  To turn this oracle into a game player: search over all legal subsequent moves and predict the opponents probability of winning given the position resulting from the move, then make the move that results in the lowest probability of winning for the opponent.  I think NNs and SVMs would work well.
+1. Most recent research in the ML game player field has focused on training a computer player to predict an "expert" player's next move, e.g. don't create a smart game player just make one that mimics a smart player.  I,however, want to create a player that predicts which side will win given a position.  To turn this oracle into a game player: search over all legal moves **{M}** for a position **P**, and predict the opponents probability of winning given the position resulting from each move (**P** + **m_i**), then choose the move that results in the lowest probability of winning for the opponent.  I think NNs and SVMs would work well.
 
 2. Using ML predictors as a pruners for regular monte carlo tree searchers.
 
