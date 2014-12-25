@@ -2,6 +2,8 @@ stoner (as in Go stone, you hippy)
 ==================================
 A research project to develop an [automated](http://en.wikipedia.org/wiki/Artificial_intelligence) [Go](http://en.wikipedia.org/wiki/Go_(game)) player utilizing machine learning techniques rather than typical tree descent searches.  The primary language will be [Scala](http://www.scala-lang.org).
 
+![](https://lh3.googleusercontent.com/_B1UBiW-spfA/TPMDzWlZQpI/AAAAAAAACRs/UNc7Qflkf9w/TNG%2B54%2BBooby%2BTrap%2BData%2B-%2BWesley.jpg)
+
 Problem Formulation
 -------------------
 The problem I wish to solve is as follows:
