@@ -34,7 +34,7 @@ Why functional programming you ask???
 
 ![](http://imgs.xkcd.com/comics/functional.png)
 
-Because I'm trying to make the '60s cool again (free love man).  Seriously: because I wanna whole lotta cuncurrency (see section below) and I think Scala gets me there quickest.
+Because I'm trying to make the '60s cool again (free love man).  Seriously: because I want a whole lotta cuncurrency (see section below) and I think Scala gets me there the quickest.
 
 Concurrency Models
 ------------------
