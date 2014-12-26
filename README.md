@@ -22,7 +22,7 @@ Some research threads I want to focus on are:
 
 2. Using ML predictors as a pruners for regular monte carlo tree searchers.
 
-3. Exploit AWS cluster deployment to create different "grades" of player.  If you want to turn the dial up to 11 you can distribute the player across several AWS nodes (possibly using [EMR](http://aws.amazon.com/elasticmapreduce/)).  Or for all the n00bs just have the player deployment to cores on the local host.  Can I get some skynet up in this piece!!!
+3. Exploit AWS cluster deployment to create different "grades" of player.  If you want to turn the dial up to 11 you can distribute the player across several AWS nodes (possibly using [EMR](http://aws.amazon.com/elasticmapreduce/)).  Or, for all the n00bs, just have the player deploy to cores on the local host.  This would allow for limitless player strength expansion simply by adding hardware: can I get a skynet up in this piece!!!
 
 
 ![](http://cdn.screenrant.com/wp-content/uploads/terminator-5-release-date-new-trilogy.jpg)
