@@ -7,7 +7,7 @@ import org.scalatest.junit.JUnitRunner
 
 
 @RunWith(classOf[JUnitRunner])
-class BoardAndMoveSuite extends FunSuite {
+class StandardBoardSuite extends FunSuite {
   
   test("New standard board is correct size") {
     val testBoard = new StandardBoard
