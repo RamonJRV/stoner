@@ -48,8 +48,8 @@ Prior Art
 ---------
 My automata senseis are:
 
-1. Clark, C., & Storkey, A. (2014) [Teaching Deep Convolutional Neural Networks to Play Go](http://arxiv.org/abs/1412.3409)
-2. Rimmel, R., & Teytaud, O., & Lee, C., & Yen, S., & Wang, M., & Tsai, S. (2010) [Current Frontiers in Computer Go](https://hal.inria.fr/inria-00544622/PDF/ct.pdf). Computational Intelligence and AI in Games.
+1. Christopher Clark, Amos Storkey [Teaching Deep Convolutional Neural Networks to Play Go](http://arxiv.org/abs/1412.3409).  2014
+2. Arpad Rimmel, Olivier Teytaud, Chang-Shing Lee, Shi-Jim Yen, Mei-Hui Wang, et al.. [Current Frontiers in Computer Go](https://hal.inria.fr/inria-00544622/PDF/ct.pdf). IEEE Transactions on Computational Intelligence and Artificial Intelligence in Games, IEEE, 2010, in press. <inria-00544622>s
 
 Training Data Set
 -----------------

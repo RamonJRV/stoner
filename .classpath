@@ -5,6 +5,10 @@
   <classpathentry output="target/scala-2.11/test-classes" kind="src" path="src/test/java"/>
   <classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
   <classpathentry kind="lib" path="/Users/ramonromeroyvigil/.ivy2/cache/com.typesafe.akka/akka-actor/jars/akka-actor-2.0.2.jar"/>
+  <classpathentry kind="lib" path="/Users/ramonromeroyvigil/.ivy2/cache/org.scalatest/scalatest_2.11/bundles/scalatest_2.11-2.2.1.jar"/>
+  <classpathentry kind="lib" path="/Users/ramonromeroyvigil/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.2.jar"/>
+  <classpathentry kind="lib" path="/Users/ramonromeroyvigil/.ivy2/cache/junit/junit/jars/junit-4.10.jar"/>
+  <classpathentry kind="lib" path="/Users/ramonromeroyvigil/.ivy2/cache/org.hamcrest/hamcrest-core/jars/hamcrest-core-1.1.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="output" path="bin"/>
 </classpath>

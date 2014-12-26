@@ -1,4 +1,4 @@
-package stoner.board
+ package stoner.board
 
 
 case class StandardBoard(board : BoardRepr = new Array[Byte](STANDARD_POINT_COUNT)) extends BoardSpec {
