@@ -26,7 +26,7 @@ package object board {
   final val STANDARD_BOARD_DIM : BoardDimension = (STANDARD_COLUMN,STANDARD_ROW)
   final val STANDARD_POINT_COUNT = STANDARD_COLUMN.toInt*STANDARD_ROW.toInt
   
-  type BoardRepr = Array[Byte]
+  type GridRepr = Array[Byte]
   
   final val STANDARD_EMPTY_BOARD : Array[Byte] = 
     Array.ofDim[Byte](STANDARD_BOARD_DIM._1*STANDARD_BOARD_DIM._2)

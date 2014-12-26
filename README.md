@@ -1,4 +1,4 @@
-stoner (as in Go stone, you hippy)
+stoner (as in [Go stone](http://en.wikipedia.org/wiki/Go_equipment#Stones), you [hippy](http://i.ytimg.com/vi/CWxgfTMLtc0/maxresdefault.jpg))
 ==================================
 A research project to develop an [automated](http://en.wikipedia.org/wiki/Artificial_intelligence) [Go](http://en.wikipedia.org/wiki/Go_(game)) player utilizing machine learning techniques rather than typical tree descent searches.  The primary language will be [Scala](http://www.scala-lang.org).
 
@@ -22,7 +22,9 @@ Some research threads I want to focus on are:
 
 2. Using ML predictors as a pruners for regular monte carlo tree searchers.
 
-3. Exploit AWS cluster deployment to create different "grades" of player.  If you want to turn the dial up to 11 you can distribute the player across several AWS nodes (possibly using [EMR](http://aws.amazon.com/elasticmapreduce/)).  Or, for all the n00bs, just have the player deploy to cores on the local host.  This would allow for limitless player strength expansion simply by adding hardware: can I get a skynet up in this piece!!!
+3. Break up the game into move count stages. First 2% - 10% database lookup, 10% - 80% use ML, final 20% use regular monte cristo (carlo).   
+
+4. Exploit AWS cluster deployment to create different "grades" of player.  If you want to turn the dial up to 11 you can distribute the player across several AWS nodes (possibly using [EMR](http://aws.amazon.com/elasticmapreduce/)).  Or, for all the n00bs, just have the player deploy to cores on the local host.  This would allow for limitless player strength expansion simply by adding hardware: can I get a skynet up in this piece!!!
 
 
 ![](http://cdn.screenrant.com/wp-content/uploads/terminator-5-release-date-new-trilogy.jpg)

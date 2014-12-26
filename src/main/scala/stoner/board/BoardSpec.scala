@@ -6,16 +6,16 @@ trait BoardSpec {
   
   def dimension : BoardDimension
   
-  def board : BoardRepr
+  def grid : GridRepr
   
-  def generateEmptyBoard(dim: BoardDimension): BoardRepr = Array.ofDim[Byte](dim._1*dim._2)
+  def generateEmptyBoard(dim: BoardDimension): GridRepr = Array.ofDim[Byte](dim._1*dim._2)
 
   def +(move : Move) : BoardSpec 
   
   protected def posToIndex(position : Position) = 
     position._1.toInt*dimension._1.toInt + position._2.toInt
     
-  def getPosValue(position : Position) : Side = board(posToIndex(position))
+  def getPosValue(position : Position) : Side = grid(posToIndex(position))
   
   def getPosValue(col: Dimension, row: Dimension) : Side = getPosValue((col,row))
   

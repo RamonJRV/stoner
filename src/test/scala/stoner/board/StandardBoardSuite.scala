@@ -16,23 +16,23 @@ class StandardBoardSuite extends FunSuite {
   val emptyStandardBoard = new StandardBoard
   
   test("New standard board is correct size") {
-    assert(emptyStandardBoard.board.length == STANDARD_COLUMN.toInt * STANDARD_ROW.toInt)
+    assert(emptyStandardBoard.grid.length == STANDARD_COLUMN.toInt * STANDARD_ROW.toInt)
   }
   
   test("New Board has no positions") {
-    assert(emptyStandardBoard.board.sum == 0)
+    assert(emptyStandardBoard.grid.sum == 0)
   }
   
   test("Single Move creates Single Stone Position") {
     
     var testBoard : BoardSpec = emptyStandardBoard + blackCornerMove
-    assert(testBoard.board.sum == BLACK.toInt)
-    assert(testBoard.board.filter(_ == BLACK).length == 1)
+    assert(testBoard.grid.sum == BLACK.toInt)
+    assert(testBoard.grid.filter(_ == BLACK).length == 1)
     assert(testBoard.getPosValue(blackCornerPos) == BLACK)
     
     testBoard = emptyStandardBoard + whiteCornerMove
-    assert(testBoard.board.sum == WHITE.toInt)
-    assert(testBoard.board.filter(_ == WHITE).length == 1)
+    assert(testBoard.grid.sum == WHITE.toInt)
+    assert(testBoard.grid.filter(_ == WHITE).length == 1)
     assert(testBoard.getPosValue(whiteCornerPos) == WHITE)
     
   }
@@ -40,9 +40,9 @@ class StandardBoardSuite extends FunSuite {
   test("Two moves creates Two Stone Position") {
     val testBoard = emptyStandardBoard + blackCornerMove + whiteCornerMove
     
-    assert(testBoard.board.sum == 0)
-    assert(testBoard.board.filter(_ == BLACK).length == 1)
-    assert(testBoard.board.filter(_ == WHITE).length == 1)
+    assert(testBoard.grid.sum == 0)
+    assert(testBoard.grid.filter(_ == BLACK).length == 1)
+    assert(testBoard.grid.filter(_ == WHITE).length == 1)
     
     assert(testBoard.getPosValue(blackCornerPos) == BLACK)
     assert(testBoard.getPosValue(whiteCornerPos) == WHITE)
