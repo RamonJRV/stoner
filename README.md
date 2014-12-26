@@ -46,7 +46,7 @@ Let's make some concurrencly jambalaya: all kinds of spices and flavors.  I woul
 
 Prior Art
 ---------
-My automata senseis are:
+My automata sensei are:
 
 1. Christopher Clark, Amos Storkey [Teaching Deep Convolutional Neural Networks to Play Go](http://arxiv.org/abs/1412.3409).  2014
 2. Arpad Rimmel, Olivier Teytaud, Chang-Shing Lee, Shi-Jim Yen, Mei-Hui Wang, et al.. [Current Frontiers in Computer Go](https://hal.inria.fr/inria-00544622/PDF/ct.pdf). IEEE Transactions on Computational Intelligence and Artificial Intelligence in Games, IEEE, 2010, in press. <inria-00544622>s
