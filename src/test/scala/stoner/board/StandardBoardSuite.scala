@@ -5,7 +5,6 @@ import org.scalatest.FunSuite
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
-
 @RunWith(classOf[JUnitRunner])
 class StandardBoardSuite extends FunSuite {
   val blackCornerPos : Position = (0,0)

@@ -5,22 +5,23 @@ import org.scalatest.FunSuite
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
-import stoner.board.{BLACK,WHITE,StandardBoard}
+import stoner.board.{BLACK,WHITE,STANDARD_COLUMN,StandardBoard}
 
 import stoner.sgfParser.AddWhiteOrBlack.{ADD_BLACK_PROPERTY, ADD_WHITE_PROPERTY}
 
 @RunWith(classOf[JUnitRunner])
 class AddWhiteOrBlackSuite extends FunSuite {
   
-  val singleStoneAdd = "[aa]"
-  
+  val upperLeftAdd = "[aa]"
+  val upperRightAdd = "[sa]"
+    
   val emptyStandardBoard = new StandardBoard
   
   test("Single Stone Adder") {
     
     var testBoard = 
       AddWhiteOrBlack.applyAddStoneStrToBoard(emptyStandardBoard, 
-                                              ADD_BLACK_PROPERTY + singleStoneAdd)
+                                              ADD_BLACK_PROPERTY + upperLeftAdd)
     
     assert(testBoard.board.sum == BLACK.toInt)
     assert(testBoard.board.filter(_ == BLACK).length == 1)
@@ -28,11 +29,27 @@ class AddWhiteOrBlackSuite extends FunSuite {
     
     testBoard = 
       AddWhiteOrBlack.applyAddStoneStrToBoard(emptyStandardBoard, 
-                                              ADD_WHITE_PROPERTY + singleStoneAdd)
+                                              ADD_WHITE_PROPERTY + upperLeftAdd)
    
     assert(testBoard.board.sum == WHITE.toInt)
     assert(testBoard.board.filter(_ == WHITE).length == 1)
     assert(testBoard.getPosValue((0,0)) == WHITE)
   }//end test("Single Stone Adder")
+  
+  test("Multi Stone, Single Color, Adder") {
+    var testBoard = 
+      AddWhiteOrBlack.applyAddStoneStrToBoard(emptyStandardBoard, 
+                                              ADD_BLACK_PROPERTY + upperLeftAdd + upperRightAdd)
+    
+    assert(testBoard.board.sum == BLACK.toInt + BLACK.toInt)
+    assert(testBoard.board.filter(_ == BLACK).length == 2)
+    assert(testBoard.getPosValue((0,0)) == BLACK)
+    assert(testBoard.getPosValue(((STANDARD_COLUMN - 1).toByte),0) == BLACK)
+    
+    println("")
+    println("Should be black in upper left and white in upper right")
+    println(testBoard)
+    
+  }//end test("Multi Stone (Single Color) Adder")
 
 }//end class AddWhiteOrBlackSuite
