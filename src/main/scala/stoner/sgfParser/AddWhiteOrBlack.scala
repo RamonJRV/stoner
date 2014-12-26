@@ -3,7 +3,7 @@ package stoner.sgfParser
 import scala.collection.immutable.IndexedSeq
 import scala.collection.immutable.Vector
 
-import stoner.board.{BLACK,WHITE,BoardSpec,Move,Position}
+import stoner.board.{BLACK,WHITE,Board,Move,Position}
 
 import PositionTranslator.strRepToPos
 
@@ -31,7 +31,7 @@ object AddWhiteOrBlack {
       Vector[Move]()
   }
 
-  def applyAddStoneStrToBoard(board : BoardSpec, str : String) : BoardSpec = 
+  def applyAddStoneStrToBoard(board : Board, str : String) : Board = 
     applyMovesToBoard(board, addStoneParser(str))
 }//end object StoneAdder
 

@@ -25,7 +25,7 @@ class StandardBoardSuite extends FunSuite {
   
   test("Single Move creates Single Stone Position") {
     
-    var testBoard : BoardSpec = emptyStandardBoard + blackCornerMove
+    var testBoard : Board = emptyStandardBoard + blackCornerMove
     assert(testBoard.grid.sum == BLACK.toInt)
     assert(testBoard.grid.filter(_ == BLACK).length == 1)
     assert(testBoard.getPosValue(blackCornerPos) == BLACK)

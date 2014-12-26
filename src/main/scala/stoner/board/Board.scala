@@ -2,7 +2,7 @@ package stoner.board
 
 import scala.Range
 
-trait BoardSpec {
+trait Board {
   
   def dimension : BoardDimension
   
@@ -10,7 +10,7 @@ trait BoardSpec {
   
   def generateEmptyBoard(dim: BoardDimension): GridRepr = Array.ofDim[Byte](dim._1*dim._2)
 
-  def +(move : Move) : BoardSpec 
+  def +(move : Move) : Board
   
   protected def posToIndex(position : Position) = 
     position._1.toInt*dimension._1.toInt + position._2.toInt

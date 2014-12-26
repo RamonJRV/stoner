@@ -2,7 +2,7 @@ package stoner.board
 
 object StoneAdder {
   
-  def applyMovesToBoard(board : BoardSpec, moves : IndexedSeq[Move]) : BoardSpec =
+  def applyMovesToBoard(board : Board, moves : IndexedSeq[Move]) : Board =
     moves.foldLeft(board)(_ + _)
 
 }
