@@ -17,9 +17,9 @@ class AddWhiteOrBlackSuite extends FunSuite {
     
   val emptyStandardBoard = new StandardBoard
   
-  test("Single Stone Adder") {
+  test("Single Black Adder") {
     
-    var testBoard = 
+    val testBoard = 
       AddWhiteOrBlack.applyAddStoneStrToBoard(emptyStandardBoard, 
                                               ADD_BLACK_PROPERTY + upperLeftAdd)
     
@@ -27,17 +27,20 @@ class AddWhiteOrBlackSuite extends FunSuite {
     assert(testBoard.board.filter(_ == BLACK).length == 1)
     assert(testBoard.getPosValue((0,0)) == BLACK)
     
-    testBoard = 
+  }//end test("Single Stone Adder")
+  
+  test("Single White Adder") {
+    val testBoard = 
       AddWhiteOrBlack.applyAddStoneStrToBoard(emptyStandardBoard, 
                                               ADD_WHITE_PROPERTY + upperLeftAdd)
    
     assert(testBoard.board.sum == WHITE.toInt)
     assert(testBoard.board.filter(_ == WHITE).length == 1)
     assert(testBoard.getPosValue((0,0)) == WHITE)
-  }//end test("Single Stone Adder")
+  }
   
-  test("Multi Stone, Single Color, Adder") {
-    var testBoard = 
+  test("Multi Black Adder") {
+    val testBoard = 
       AddWhiteOrBlack.applyAddStoneStrToBoard(emptyStandardBoard, 
                                               ADD_BLACK_PROPERTY + upperLeftAdd + upperRightAdd)
     
@@ -46,10 +49,17 @@ class AddWhiteOrBlackSuite extends FunSuite {
     assert(testBoard.getPosValue((0,0)) == BLACK)
     assert(testBoard.getPosValue(((STANDARD_COLUMN - 1).toByte),0) == BLACK)
     
-    println("")
-    println("Should be black in upper left and white in upper right")
-    println(testBoard)
-    
   }//end test("Multi Stone (Single Color) Adder")
 
+  test("Multi White Adder") {
+    val testBoard = 
+      AddWhiteOrBlack.applyAddStoneStrToBoard(emptyStandardBoard, 
+                                              ADD_WHITE_PROPERTY + upperLeftAdd + upperRightAdd)
+    
+    assert(testBoard.board.sum == WHITE.toInt + WHITE.toInt)
+    assert(testBoard.board.filter(_ == WHITE).length == 2)
+    assert(testBoard.getPosValue((0,0)) == WHITE)
+    assert(testBoard.getPosValue(((STANDARD_COLUMN - 1).toByte),0) == WHITE)
+  }
+  
 }//end class AddWhiteOrBlackSuite
