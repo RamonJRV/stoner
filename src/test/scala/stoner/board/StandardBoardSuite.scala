@@ -47,6 +47,9 @@ class StandardBoardSuite extends FunSuite {
     
     assert(testBoard.getPosValue(blackCornerPos) == BLACK)
     assert(testBoard.getPosValue(whiteCornerPos) == WHITE)
+    
+    println("Should be black in upper left and white in upper right")
+    println(testBoard)
   }
 
 }//end object BoardAndMoveSuite extends FunSuite

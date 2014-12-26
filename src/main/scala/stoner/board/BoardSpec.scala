@@ -22,8 +22,8 @@ trait BoardSpec {
   override def toString  = {
     val lines = 
       for {
-        c <- Range(0, dimension._1)
-      } yield Range(0, dimension._2).map((r: Int) => posToChar(getPosValue(c.toByte,r.toByte))).mkString(" ")
+        r <- Range(0, dimension._2)
+      } yield Range(0, dimension._1).map((c: Int) => posToChar(getPosValue(c.toByte,r.toByte))).mkString(" ")
       
     lines.mkString("\n")
   }
