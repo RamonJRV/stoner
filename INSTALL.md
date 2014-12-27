@@ -1,7 +1,23 @@
 INSTALL
 =======
-Install?  What are you crazy?  This thing is running on chicken wire and duct tape right now.
+Currently there is no "production" level install.  There are only builds of the source tree.  
+
+Prerequisites
+-------------
+
+1. Scala (2.11.4)
+2. sbt (0.13.7)
+3. Optional: ScalaIDE
+
+Steps
+-----
+From a unix-ish command line
+
+    git clone git@github.com:RJRyV/stoner.git
+    cd stoner
+    sbt
+    compile
 
 Data Set
 --------
-Buy and unzip the GoGoD dataset .zip file in stoner/src/main/resources.
+Buy and unzip the GoGoD dataset .zip file in the stoner/src/main/resources directory.
