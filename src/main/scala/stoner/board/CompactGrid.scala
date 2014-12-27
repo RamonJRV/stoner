@@ -63,9 +63,9 @@ object CompactGrid {
 case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STANDARD_BOARD_DIM, 
                        val gridArray : CompactGrid.GridRepr = CompactGrid.generateGridArray(BoardDimension.STANDARD_BOARD_DIM)) extends Grid {
   
-  def getIndex(pos : Position) = boardDimension.row * pos.column + pos.row
+  protected[board] def getIndex(pos : Position) : Int = boardDimension.row * pos.column + pos.row
   
-  def getBucket(pos : Position) = 
+  def getBucket(pos : Position) : Int = 
     getIndex(pos)*CompactGrid.BITS_PER_POINT / CompactGrid.POINTS_PER_BUCKET
   
   def getBucketIndex(pos : Position) =

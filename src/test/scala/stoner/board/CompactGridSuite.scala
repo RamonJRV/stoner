@@ -41,7 +41,23 @@ class CompactGridSuite extends FunSuite {
   val emptyGrid : CompactGrid = new CompactGrid
   
   test("getIndex on various point values") {
+    //test the first column
+    for(r <- Range(0, STANDARD_ROWS)) {
+      assert(r == emptyGrid.getIndex(Position(0,r)))
+    }
+    
+    //test the top row
+    for(c <- Range(0, STANDARD_COLUMNS)) {
+      assert(STANDARD_ROWS*c == emptyGrid.getIndex(Position(c,0)))
+    }
+    
+    //test the diagonal
+    for(d <- Range(0, STANDARD_ROWS)) {
+      assert(d*20 == emptyGrid.getIndex(Position(d,d)))  
+    }
     
   }//end test("getIndex on various point values")
+  
+  
   
 }//end class CompactGridSuite extends FunSuite

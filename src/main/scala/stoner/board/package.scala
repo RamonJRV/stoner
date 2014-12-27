@@ -17,14 +17,11 @@ package object board {
   type Dimension = Int
   type Column = Dimension
   type Row = Dimension
+    
+  final val STANDARD_COLUMNS : Column = 19
+  final val STANDARD_ROWS : Row = 19
   
-  //type BoardDimension = (Column,Row)
-  
-  
-  final val STANDARD_COLUMN : Column = 19
-  final val STANDARD_ROW : Row = 19
-  
-  final val STANDARD_POINT_COUNT = STANDARD_COLUMN.toInt*STANDARD_ROW.toInt
+  final val STANDARD_POINT_COUNT = STANDARD_COLUMNS.toInt*STANDARD_ROWS.toInt
 
   
 }// package object Board
