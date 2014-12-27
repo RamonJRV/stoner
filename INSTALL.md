@@ -11,12 +11,19 @@ Prerequisites
 
 Steps
 -----
-From a unix-ish command line
+From a unix-ish command line:
 
     git clone git@github.com:RJRyV/stoner.git
     cd stoner
     sbt
+    
+The in sbt:
+    
     compile
+
+Optionally (in sbt):
+
+    eclipse
 
 Data Set
 --------
