@@ -4,7 +4,7 @@ import scala.Range
 
 trait Board {
   
-  def grid : Grid
+  val grid : Grid
   
   def +(move : Move) : Board
   

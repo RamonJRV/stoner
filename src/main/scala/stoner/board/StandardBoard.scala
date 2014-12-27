@@ -1,9 +1,7 @@
  package stoner.board
 
 
-class StandardBoard(grid_i : Grid = new CompactGrid) extends Board {
-    
-  override def grid = grid_i
+class StandardBoard(val grid : Grid = new CompactGrid) extends Board {
    
   //FIXME
   override def +(move : Move) : Board = this
