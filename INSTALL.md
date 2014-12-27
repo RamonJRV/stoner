@@ -27,4 +27,4 @@ Optionally (in sbt):
 
 Data Set
 --------
-Buy and unzip the GoGoD dataset .zip file in the stoner/src/main/resources directory.
+Buy and unzip the [GoGoD](http://gogodonline.co.uk/) dataset .zip file in the stoner/src/main/resources directory.
