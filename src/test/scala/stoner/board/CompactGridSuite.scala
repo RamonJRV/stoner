@@ -5,7 +5,8 @@ import org.scalatest.FunSuite
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
-import CompactGrid.{setPointValueInBucket,EMPTY_VALUE,WHITE_VALUE,BLACK_VALUE,Bucket, BITS_PER_POINT}
+import CompactGrid.{setPointValueInBucket,EMPTY_VALUE,WHITE_VALUE,BLACK_VALUE,
+                    Bucket, BITS_PER_POINT, POINTS_PER_BUCKET}
 
 @RunWith(classOf[JUnitRunner])
 class CompactGridSuite extends FunSuite {
@@ -58,6 +59,26 @@ class CompactGridSuite extends FunSuite {
     
   }//end test("getIndex on various point values")
   
+  test("getBucketIndex on various points") {
+    for(p <- Range(0,POINTS_PER_BUCKET)) {
+      assert(0 == emptyGrid.getBucketIndex(Position(0,p)))
+    }
+    
+    val bucketsPerGrid = 
+      emptyGrid.boardDimension.column * emptyGrid.boardDimension.row / POINTS_PER_BUCKET
+    
+    for(b <- Range(0, bucketsPerGrid)) {
+      assert(b == emptyGrid.getBucketIndex(Position(0,b*POINTS_PER_BUCKET)))
+    }
+  }//end test("getBucketIndex on various points")
   
+  test("getPointIndex on various point values") {
+    for(p <- Range(0, POINTS_PER_BUCKET)) {
+      assert(p == emptyGrid.getPointIndex(Position(0,p)))
+    }
+    
+    assert(0 == emptyGrid.getPointIndex(Position(0,POINTS_PER_BUCKET)))
+    assert(1 == emptyGrid.getPointIndex(Position(0,POINTS_PER_BUCKET+1)))
+  }
   
 }//end class CompactGridSuite extends FunSuite

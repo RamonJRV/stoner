@@ -18,8 +18,6 @@ object CompactGrid {
   
   def gridSizeToGridReprSize(c : Dimension, r : Dimension) : Int =
     (c*r)*BITS_PER_POINT/POINTS_PER_BUCKET + 1
-  
-  
     
   def generateGridArray(dim : BoardDimension) : Array[Int] = dim match {
   	case BoardDimension(c,r) => {
@@ -58,61 +56,49 @@ object CompactGrid {
       // BLACK_VALUE << (index * BITS_PER_POINT) = 00...11..00
       bucket | (BLACK_VALUE << (index * BITS_PER_POINT))
     
-}//end object CompactGridUtils
+}//end object CompactGrid
 
 case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STANDARD_BOARD_DIM, 
                        val gridArray : CompactGrid.GridRepr = CompactGrid.generateGridArray(BoardDimension.STANDARD_BOARD_DIM)) extends Grid {
   
-  protected[board] def getIndex(pos : Position) : Int = boardDimension.row * pos.column + pos.row
+  /**Gets the 1-D point index from a 2-D Position.
+   * 
+   * @param pos : The Position to get the 1-D for
+   * @return The numerical index corresponding to the given Position.  The 
+   *  return value is in the set {0,1,...,boardDimension.Column*boardDimension.Row-1}
+   */
+  protected[board] def getIndex(pos : Position) : Int = 
+    boardDimension.row * pos.column + pos.row
   
-  def getBucket(pos : Position) : Int = 
-    getIndex(pos)*CompactGrid.BITS_PER_POINT / CompactGrid.POINTS_PER_BUCKET
+  /**Gets the index within gridArray holding the Bucket storing the given 
+   * 2-D Position.
+   * 
+   * @param pos : The Position to get the Bucket index for
+   * @return The index for the Bucket at gridArray[i] which cotains the given 
+   *  Position.  The return value is in the set 
+   *  {0,1,...,boardDimension.Column*boardDimension.Row/POINTS_PER_BUCKET-1}
+   */
+  protected[board] def getBucketIndex(pos : Position) : Int = 
+    getIndex(pos) / CompactGrid.POINTS_PER_BUCKET
   
-  def getBucketIndex(pos : Position) =
-    getIndex(pos) - getBucket(pos) * CompactGrid.POINTS_PER_BUCKET
+  /**Gets the point index within a the Bucket storing the given 2-D Position.
+   * 
+   * @param pos : The Position to get the Bucket index for
+   * @return The point index for the Bucket storing the given Position.  The
+   *  return value is in the set {0,1,...,POINTS_PER_BUCKET}
+   * 
+   */
+  protected[board] def getPointIndex(pos : Position) : Int = {
+    getIndex(pos) - getBucketIndex(pos)*CompactGrid.POINTS_PER_BUCKET
+  }
+  
     
   def get(pos : Position) : Side = {
-    //index is which linear index 0 -> (19x19-1)
-    val index = getIndex(pos)
-    
-    //bucket is which integer the index falls in
-    val bucket = getBucket(pos)
-      
-    //bucket index is which point in the bucket, 2 bits per point
-    val bucketIndex = getBucketIndex(pos)
-    
-    val pointValue = 
-      (gridArray(bucket) << (CompactGrid.POINTS_PER_BUCKET*CompactGrid.BITS_PER_POINT-bucketIndex*CompactGrid.BITS_PER_POINT -1)) >> (CompactGrid.POINTS_PER_BUCKET*CompactGrid.BITS_PER_POINT  - 1) 
-          
-    if (pointValue == CompactGrid.EMPTY_VALUE)
-      EMPTY
-    else if (pointValue == CompactGrid.WHITE_VALUE )
-      WHITE
-    else
-      BLACK  
+    EMPTY //FIXME
   }//end def get(pos : Position) : Side
-  
-  
-  
-  def set(pos : Position, side : Side) : CompactGrid = {
-
-    val updatedValue : Int = 
-      if (side == BLACK) {
-        var allOnes : Int = 0 
-        allOnes = ~(allOnes & 0)
-        CompactGrid.BLACK_VALUE
-      }
-      else if (side == WHITE) {
-        CompactGrid.WHITE_VALUE
-      }
-      else {
-        CompactGrid.EMPTY_VALUE   
-      }
-      //CompactGrid.EMPTY_VALUE) << getBucketIndex(pos)*CompactGrid.BITS_PER_POINT 
-        
-      //val updatedValue : Int = gridArray(getBucket(pos))  //FIXME - I need to do the slider math
     
-    CompactGrid(boardDimension, gridArray.updated(getBucket(pos), updatedValue))
+  def set(pos : Position, side : Side) : CompactGrid = {
+    new CompactGrid //FIXME
   }//end def set(pos : Position, side : Side) : CompactGrid
 
 }//end case class CompactGrid extends Grid
