@@ -4,26 +4,15 @@ import scala.Range
 
 trait Board {
   
-  def dimension : BoardDimension
+  def grid : Grid
   
-  def grid : GridRepr
-  
-  def generateEmptyBoard(dim: BoardDimension): GridRepr = Array.ofDim[Byte](dim._1*dim._2)
-
   def +(move : Move) : Board
-  
-  protected def posToIndex(position : Position) = 
-    position._1.toInt*dimension._1.toInt + position._2.toInt
-    
-  def getPosValue(position : Position) : Side = grid(posToIndex(position))
-  
-  def getPosValue(col: Dimension, row: Dimension) : Side = getPosValue((col,row))
   
   override def toString  = {
     val lines = 
       for {
-        r <- Range(0, dimension._2)
-      } yield Range(0, dimension._1).map((c: Int) => posToChar(getPosValue(c.toByte,r.toByte))).mkString(" ")
+        r <- Range(0, grid.boardDimension.row)
+      } yield Range(0, grid.boardDimension.column).map((c: Int) => posToChar(grid.get(c,r))).mkString(" ")
       
     lines.mkString("\n")
   }
