@@ -79,6 +79,24 @@ class CompactGridSuite extends FunSuite {
     
     assert(0 == emptyGrid.getPointIndex(Position(0,POINTS_PER_BUCKET)))
     assert(1 == emptyGrid.getPointIndex(Position(0,POINTS_PER_BUCKET+1)))
-  }
+  }//end test("getPointIndex on various point values")
   
+  test("set on various points") {
+    var pos = Position(0,0)
+    assert(emptyGrid.set(pos, WHITE).get(pos) == WHITE)
+    assert(emptyGrid.set(pos, BLACK).get(pos) == BLACK)
+    
+    pos = Position(0,1)
+    assert(emptyGrid.set(pos, WHITE).get(pos) == WHITE)
+    assert(emptyGrid.set(pos, BLACK).get(pos) == BLACK)
+  }//end test("set on various points")
+  
+  test("flatten of a grid") {
+    assert(emptyGrid.flatten.length == 
+           emptyGrid.boardDimension.column*emptyGrid.boardDimension.row)
+           
+    assert(emptyGrid.set(Position(0,0), EMPTY).flatten(0) == EMPTY)
+    assert(emptyGrid.set(Position(0,0), WHITE).flatten(0) == WHITE)
+    assert(emptyGrid.set(Position(0,0), BLACK).flatten(0) == BLACK)
+  }
 }//end class CompactGridSuite extends FunSuite

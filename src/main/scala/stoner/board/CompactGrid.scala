@@ -59,6 +59,8 @@ object CompactGrid {
 }//end object CompactGrid
 
 case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STANDARD_BOARD_DIM, 
+                       val capturedBlack : Int = 0,
+                       val capturedWhite : Int = 0,
                        val gridArray : CompactGrid.GridRepr = CompactGrid.generateGridArray(BoardDimension.STANDARD_BOARD_DIM)) extends Grid {
   
   /**Gets the 1-D point index from a 2-D Position.
@@ -92,13 +94,36 @@ case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STAN
     getIndex(pos) - getBucketIndex(pos)*CompactGrid.POINTS_PER_BUCKET
   }
   
+  @Override
+  override def get(pos : Position) : Side = {
+    val bucket = gridArray(getBucketIndex(pos))
     
-  def get(pos : Position) : Side = {
-    EMPTY //FIXME
+    val pointIndex = getPointIndex(pos)
+    
+    val pointVal = 
+      ((bucket << ((CompactGrid.POINTS_PER_BUCKET-pointIndex -1)*CompactGrid.BITS_PER_POINT))
+        >> (CompactGrid.POINTS_PER_BUCKET-1)*CompactGrid.BITS_PER_POINT)
+        
+    if(pointVal == CompactGrid.EMPTY_VALUE)
+      EMPTY
+    else if(pointVal == CompactGrid.WHITE_VALUE)
+      WHITE
+    else
+      BLACK
   }//end def get(pos : Position) : Side
     
-  def set(pos : Position, side : Side) : CompactGrid = {
-    new CompactGrid //FIXME
+  @Override
+  override def set(pos : Position, side : Side) : CompactGrid = {
+     
+    val newBucketValue =   
+      CompactGrid.setPointValueInBucket(gridArray(getBucketIndex(pos)),
+                                        getPointIndex(pos),
+                                        side)
+                                        
+    new CompactGrid(boardDimension,
+                    capturedBlack,
+                    capturedWhite,
+                    gridArray.updated(getBucketIndex(pos), newBucketValue))
   }//end def set(pos : Position, side : Side) : CompactGrid
 
 }//end case class CompactGrid extends Grid
