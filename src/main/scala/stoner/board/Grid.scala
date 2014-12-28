@@ -55,8 +55,8 @@ trait Grid {
   def set(pos : Position, side : Side) : CompactGrid
   
   /**
-   * Determines whether or not the given is legally within the dimensions of 
-   * the grid
+   * Determines whether or not the given Position is legally within the 
+   * dimensions of the grid.
    * @param pos The Position to evaluate for legality
    * @return True if the given position is within the confines of boardDimension,
    *  false otherwise.
