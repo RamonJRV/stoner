@@ -5,3 +5,5 @@ object BoardDimension {
 }
 
 case class BoardDimension(val column : Dimension, val row : Dimension)
+
+//31337

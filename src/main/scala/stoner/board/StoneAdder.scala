@@ -6,3 +6,5 @@ object StoneAdder {
     moves.foldLeft(board)(_ + _)
 
 }
+
+//31337
