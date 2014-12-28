@@ -8,6 +8,8 @@ package object board {
   final val BLACK : Side = 1
   final val EMPTY : Side = 0
   
+  def otherSide(side : Side) = side * -1
+  
   def posToChar(pos : Side) = {
     if (pos == WHITE) 'W'
     else if (pos == BLACK) 'B'
