@@ -6,7 +6,7 @@ import scala.collection.immutable.HashSet
 import scala.Range
 
 /**
- * The Board (I mean Borg) is responsible for maintaining and update the 
+ * The Board (I mean Borg) is responsible for maintaining and updating the 
  * sequence of Grids that represent a game.  Boards are responsible for 
  * "interpreting" Moves into a Grid transition (delta).   
  */
