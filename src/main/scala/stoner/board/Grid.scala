@@ -1,5 +1,7 @@
 package stoner.board
 
+import java.util.Arrays
+
 /** A representation of stones on a Go board and the count of each players'
  *  captured stones.
  * 
@@ -60,6 +62,14 @@ trait Grid {
          r <- Range(0,boardDimension.row))
       yield get(c,r)).toArray
   
+  /**
+   * Provides a "deep" hashCode of the grid, i.e. based on contents.
+   * @return A hash value that is based on the contents of the grid.  The 
+   * collision probability of two disimilar grids is 1/2^32.
+   */
+  @Override
+  override def hashCode : Int = 
+    Arrays.hashCode(flatten) + capturedBlack + capturedWhite
 }//end trait Grid
 
 //31337
