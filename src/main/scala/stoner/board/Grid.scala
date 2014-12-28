@@ -26,7 +26,7 @@ trait Grid {
   val capturedWhite : Int
   
   /**
-   * Gets the Side stored in the grid for the given position.
+   * Gets the Side stored in the grid for the given Position.
    * 
    * @param pos The position to get the side for
    * @return The side for the given position
@@ -65,8 +65,6 @@ trait Grid {
   /**
    * Provides a "deep" hashCode of the grid, i.e. based on contents.
    * 
-   * FIXME - need to write unit tests.
-   * 
    * @return A hash value that is based on the contents of the grid.  The 
    * collision probability of two disimilar grids is 1/2^32.
    */
@@ -75,8 +73,6 @@ trait Grid {
   
   /**
    * Provides a "deep" equality check based on the grid.
-   * 
-   * FIXME - need to write unit tests.
    * 
    * @return True if the contents of the other grid are equal to the contents
    * of this Grid, false otherwise (more than likely).

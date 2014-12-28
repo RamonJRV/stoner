@@ -14,8 +14,8 @@ object AddWhiteOrBlack {
   final val ADD_WHITE_PROPERTY : String = "AW"
   final val ADD_BLACK_PROPERTY : String = "AB"
 
-  def addWhiteStone(str : String) : Move = Move(WHITE, strRepToPos(str))
-  def addBlackStone(str : String) : Move = Move(BLACK, strRepToPos(str))
+  def addWhiteStone(str : String) : Move = Move(strRepToPos(str), WHITE)
+  def addBlackStone(str : String) : Move = Move(strRepToPos(str), BLACK)
     
   
   private def splitPosSeq(str: String) : IndexedSeq[String] =

@@ -98,5 +98,50 @@ class CompactGridSuite extends FunSuite {
     assert(emptyGrid.set(Position(0,0), EMPTY).flatten(0) == EMPTY)
     assert(emptyGrid.set(Position(0,0), WHITE).flatten(0) == WHITE)
     assert(emptyGrid.set(Position(0,0), BLACK).flatten(0) == BLACK)
-  }
+  }//end test("flatten of a grid")
+  
+  test("hashCode of a grid") {
+    assert((new CompactGrid).hashCode == (new CompactGrid).hashCode)
+    
+    //check for collision of similar grids
+    assert((new CompactGrid).set(Position(0,0), EMPTY) == 
+           (new CompactGrid).set(Position(0,0), EMPTY))
+    
+    assert((new CompactGrid).set(Position(0,0), WHITE) == 
+           (new CompactGrid).set(Position(0,0), WHITE))
+           
+    assert((new CompactGrid).set(Position(0,0), BLACK) == 
+           (new CompactGrid).set(Position(0,0), BLACK))
+           
+    assert((new CompactGrid).set(Position(0,0), EMPTY).set(Position(0,1), EMPTY) == 
+           (new CompactGrid).set(Position(0,0), EMPTY).set(Position(0,1), EMPTY))
+           
+    assert((new CompactGrid).set(Position(0,0), EMPTY).set(Position(0,1), WHITE) == 
+           (new CompactGrid).set(Position(0,0), EMPTY).set(Position(0,1), WHITE))
+           
+    assert((new CompactGrid).set(Position(0,0), EMPTY).set(Position(0,1), BLACK) == 
+           (new CompactGrid).set(Position(0,0), EMPTY).set(Position(0,1), BLACK))
+    
+    assert((new CompactGrid).set(Position(0,0), WHITE).set(Position(0,1), WHITE) == 
+           (new CompactGrid).set(Position(0,0), WHITE).set(Position(0,1), WHITE))
+           
+    assert((new CompactGrid).set(Position(0,0), WHITE).set(Position(0,1), BLACK) == 
+           (new CompactGrid).set(Position(0,0), WHITE).set(Position(0,1), BLACK))
+           
+    //check for non-collision of non-similar grids
+    assert((new CompactGrid).set(Position(0,0), EMPTY) != 
+           (new CompactGrid).set(Position(0,0), WHITE))
+    
+    assert((new CompactGrid).set(Position(0,0), EMPTY) != 
+           (new CompactGrid).set(Position(0,0), BLACK))
+           
+    assert((new CompactGrid).set(Position(0,0), EMPTY).set(Position(0,1), BLACK) != 
+           (new CompactGrid).set(Position(0,0), EMPTY).set(Position(0,1), EMPTY))
+           
+    assert((new CompactGrid).set(Position(0,0), EMPTY).set(Position(0,1), BLACK) != 
+           (new CompactGrid).set(Position(0,0), EMPTY).set(Position(0,1), WHITE))       
+          
+  }//end test("hashCode of a grid")
+  
+  
 }//end class CompactGridSuite extends FunSuite

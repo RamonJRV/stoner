@@ -1,5 +1,5 @@
 package stoner.board
 
-case class Move(val side: Side, val position: Position)
+case class Move(val position: Position, val side: Side)
 
 //31337
