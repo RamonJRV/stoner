@@ -68,8 +68,19 @@ trait Grid {
    * collision probability of two disimilar grids is 1/2^32.
    */
   @Override
-  override def hashCode : Int = 
-    Arrays.hashCode(flatten) + capturedBlack + capturedWhite
+  override def hashCode : Int = Arrays.hashCode(flatten)
+  
+  /**
+   * Provides a "deep" equality check based on the grid.
+   * @return True if the contents of the other grid are equal to the contents
+   * of this Grid, false otherwise (more than likely).
+   */
+  @Override
+  override def equals(o: Any) = o match {
+    case that: Grid => that.hashCode == hashCode
+    case _ => false
+  }
+  
 }//end trait Grid
 
 //31337

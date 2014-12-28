@@ -134,7 +134,7 @@ case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STAN
    * collision probability of two disimilar grids is 1/2^32.
    */
   @Override
-  override def hashCode : Int = 
-    Arrays.hashCode(gridArray) + capturedBlack + capturedWhite
+  override def hashCode : Int = Arrays.hashCode(gridArray)
+  
 }//end case class CompactGrid extends Grid
 
