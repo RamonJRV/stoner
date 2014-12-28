@@ -51,7 +51,8 @@ Prior Art
 My automata sensei are:
 
 1. Christopher Clark, Amos Storkey [Teaching Deep Convolutional Neural Networks to Play Go](http://arxiv.org/abs/1412.3409).  2014
-2. Arpad Rimmel, Olivier Teytaud, Chang-Shing Lee, Shi-Jim Yen, Mei-Hui Wang, et al.. [Current Frontiers in Computer Go](https://hal.inria.fr/inria-00544622/PDF/ct.pdf). IEEE Transactions on Computational Intelligence and Artificial Intelligence in Games, IEEE, 2010, in press. <inria-00544622>s
+2. Arpad Rimmel, Olivier Teytaud, Chang-Shing Lee, Shi-Jim Yen, Mei-Hui Wang, et al.. [Current Frontiers in Computer Go](https://hal.inria.fr/inria-00544622/PDF/ct.pdf). IEEE Transactions on Computational Intelligence and Artificial Intelligence in Games, IEEE, 2010, in press. <inria-00544622>
+3. Martin Wistuba, Lars Schmidt-Thieme [Move Prediction in Go - Modelling Feature Interactions Using Latent Factors](http://www.ismll.uni-hildesheim.de/pub/pdfs/wistuba_et_al_KI_2013.pdf)
 
 Training Data Set
 -----------------
