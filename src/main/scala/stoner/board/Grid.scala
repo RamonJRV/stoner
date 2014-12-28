@@ -55,6 +55,34 @@ trait Grid {
   def set(pos : Position, side : Side) : CompactGrid
   
   /**
+   * Determines whether or not the given is legally within the dimensions of 
+   * the grid
+   * @param pos The Position to evaluate for legality
+   * @return True if the given position is within the confines of boardDimension,
+   *  false otherwise.
+   */
+  def isLegalPosition(pos: Position) : Boolean = pos match {
+    case Position(col,row) => 
+      col >=0 && col < boardDimension.column &&
+      row >=0 && row < boardDimension.row
+  }//end def isLegalPosition(pos: Position) : Boolean = pos match
+  
+  protected def iterateAllPossibleNeighbors(pos: Position) : Set[Position] = 
+    pos match { case Position(col,row) => Set[Position](Position(col-1, row),
+	                                                    Position(col+1, row),
+		     		                                    Position(col, row-1),
+				                                        Position(col, row+1))
+	}
+  
+  /**
+   * Gets the legal neighboring Positions of the given Position
+   * @param The Position to get the legal neihbors for
+   * @return All of the neighbors of the given Position that are on the grid. 
+   */
+  def getNeighbors(pos : Position) : Set[Position] = 
+    (iterateAllPossibleNeighbors(pos)).filter(isLegalPosition)
+  
+  /**
    * Flattens the internal representation of the grid into a 1-D array of Sides.
    */
   def flatten : Array[Side] = 
