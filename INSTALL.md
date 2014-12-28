@@ -1,6 +1,6 @@
 INSTALL
 =======
-Currently there is no "production" level install.  There are only builds of the source tree.  
+Currently there is no "production" level install.  There is only a build of the source tree.  
 
 Prerequisites
 -------------
@@ -17,7 +17,7 @@ From a unix-ish command line:
     cd stoner
     sbt
     
-The in sbt:
+Then in sbt:
     
     compile
 
