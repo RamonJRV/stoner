@@ -38,6 +38,8 @@ Why functional programming you ask???
 
 Because I'm trying to make the '60s cool again (free love man).  Seriously: because I want a whole lotta cuncurrency (see section below) and I think Scala gets me there the quickest.
 
+Also, I think recursive functions will greatly simplify things like dragon & death identification.
+
 Concurrency Models
 ------------------
 Let's make some concurrency jambalaya: all kinds of spices and flavors mixed together.  I would like to use:
