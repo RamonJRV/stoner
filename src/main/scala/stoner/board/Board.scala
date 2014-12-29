@@ -17,29 +17,35 @@ trait Board {
   def +(move : Move) : Board
   
   /**
-   * Identifies the position of all stones that are part of the same group as
+   * Identifies the Position of all stones that are part of the same group as
    * the stone at the given position.
    * @param pos The Position holding the stone
    * @return The Positions (including the pos parameter) of all stones that are
-   * the same side as the stone as pos if pos is occupied, empty Set otherwise.
-   * @todo Optimize the internal recursive function to be tail recursive.
+   * the same side as the stone at pos if pos is occupied, empty Set otherwise.
    */
   def identifyGroup(pos: Position) : Set[Position] = {
     
     val side = grid.get(pos)
     
-    if (side == EMPTY) Set[Position]() 
+    //if (side == EMPTY) Set[Position]() 
+    //else {
+      @tailrec
+      def idGroupRec(posToSearch: Set[Position],acc: Set[Position]) : Set[Position] = {
+        if(posToSearch.isEmpty) acc
+        else {
+          val h = posToSearch.head
+          val t = posToSearch.tail
+          
+          def goodNeighbor(p: Position) : Boolean =
+            grid.get(p) == side && !acc.contains(p) //state farm
+            
+          idGroupRec(grid.getNeighbors(h).filter(goodNeighbor) ++ t,
+                     acc + h)
+        }//end else to if(posToSearch.isEmpty)
+      }//end def idGroupRec(pos: Position, side: Side, acc: Set[Position])
     
-    def identifyGroupRec(pos: Position, side: Side, acc: Set[Position]) : Set[Position] = {
-      if (acc contains pos) acc
-      else {
-        Set[Position](pos) | 
-        {for(n <- grid.getNeighbors(pos) if (grid.get(n) == side)) 
-          yield identifyGroupRec(n, side, acc + pos)}.flatten
-      }
-    }//end def identifyGroupRec(pos: Position, side: Side, acc: Set[Position])
-    
-    identifyGroupRec(pos, side, new HashSet[Position]())
+      idGroupRec(HashSet[Position](pos), new HashSet[Position]())
+    //}//end else to if (side == EMPTY)
   }//end def findGroup(pos: Position, side: Side)
   
   override def toString  = {
@@ -50,6 +56,6 @@ trait Board {
       
     lines.mkString("\n")
   }
-}//end trait BoardSpec
+}//end trait Board
 
 //31337
