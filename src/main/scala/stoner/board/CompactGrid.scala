@@ -134,15 +134,6 @@ case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STAN
                     capturedWhite,
                     gridArray.updated(getBucketIndex(pos), newBucketValue))
   }//end def set(pos : Position, side : Side) : CompactGrid
-
-  /**
-   * Provides a "deep" hashCode of the grid, i.e. based on contents.
-   * @return A hash value that is based on the contents of the grid.  The 
-   * collision probability of two disimilar grids is 1/2^32.
-   */
-  @Override
-  override def hashCode : Int = Arrays.hashCode(gridArray)
-  
 }//end case class CompactGrid extends Grid
 
 //31337
