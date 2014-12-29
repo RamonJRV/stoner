@@ -60,6 +60,13 @@ object CompactGrid {
     
 }//end object CompactGrid
 
+/**
+ * A Compact representation of stones on a Go Board.  
+ * 
+ * For a defintion of "compact" see:
+ * 
+ * @see <a href="https://github.com/RJRyV/stoner/wiki/Go-Grid-Representation-in-Scala">my write up on the subject</a>.
+ */
 case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STANDARD_BOARD_DIM, 
                        val capturedBlack : Int = 0,
                        val capturedWhite : Int = 0,
