@@ -48,6 +48,15 @@ trait Board {
     //}//end else to if (side == EMPTY)
   }//end def findGroup(pos: Position, side: Side)
   
+  def liberties(pos : Position) : Set[Position] = 
+    grid.getNeighbors(pos).filter((p: Position) => grid.get(p) == EMPTY)
+  
+  def countLiberties(pos: Position) : Set[Position] = {
+    identifyGroup(pos).flatMap(liberties)
+  }//end def countLiberties(pos: Position) : Set[Position]
+  
+  def isAlive(pos: Position) : Boolean = liberties(pos).size > 0
+  
   override def toString  = {
     val lines = 
       for {
