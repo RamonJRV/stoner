@@ -10,7 +10,12 @@ class StandardBoardSuite extends FunSuite {
   
   val emptyGrid = new CompactGrid
   val origin = Position(0,0)
-    
+  
+  def emptyBoard(grid: Grid) : StandardBoard = new StandardBoard(grid)
+  
+  /**
+   * @todo TODO - switch all of the new StandardBoard statements to emptyBoard
+   */
   test("identifyGroup works on groups size 1") {
     //1 size groups at origin
     var board = new StandardBoard(emptyGrid.set(origin, BLACK))
@@ -91,6 +96,74 @@ class StandardBoardSuite extends FunSuite {
     assert(board.identifyGroup(Position(4,3)).size == 3)
     assert(board.identifyGroup(Position(3,3)).size == 1)
   }//end test("identifyGroup works on group size 3")
+  
+  
+  
+  test("Liberties for a single stone in various Positions") {
+    //single stone in the corner
+    var board = emptyBoard(emptyGrid.set(origin, BLACK))
+    assert(board.liberties(origin).size == 2)
+    assert(board.liberties(origin).contains(Position(0,1)) &&
+           board.liberties(origin).contains(Position(1,0)))
+           
+    board = emptyBoard(emptyGrid.set(origin, WHITE))
+    assert(board.liberties(origin).size == 2)
+    assert(board.liberties(origin).contains(Position(0,1)) &&
+           board.liberties(origin).contains(Position(1,0)))
+           
+    //single stone on the edge
+    var p = Position(0,1)
+    board = emptyBoard(emptyGrid.set(p, BLACK))
+    assert(board.liberties(p).size == 3)
+    assert(board.liberties(p).contains(Position(0,0)) && 
+           board.liberties(p).contains(Position(1,1)) &&
+           board.liberties(p).contains(Position(0,2)))
+           
+    board = emptyBoard(emptyGrid.set(p, WHITE))
+    assert(board.liberties(p).size == 3)
+    assert(board.liberties(p).contains(Position(0,0)) && 
+           board.liberties(p).contains(Position(1,1)) &&
+           board.liberties(p).contains(Position(0,2)))
+           
+    //single stone in the middle of the board
+    p = Position(1,1)
+    board = emptyBoard(emptyGrid.set(p, BLACK))
+    assert(board.liberties(p).size == 4)
+    assert(board.liberties(p).contains(Position(1,0)) && 
+           board.liberties(p).contains(Position(0,1)) &&
+           board.liberties(p).contains(Position(1,2)) && 
+           board.liberties(p).contains(Position(2,1)))
+           
+    p = Position(1,1)
+    board = emptyBoard(emptyGrid.set(p, WHITE))
+    assert(board.liberties(p).size == 4)
+    assert(board.liberties(p).contains(Position(1,0)) && 
+           board.liberties(p).contains(Position(0,1)) &&
+           board.liberties(p).contains(Position(1,2)) && 
+           board.liberties(p).contains(Position(2,1)))
+          
+  }//end test("Liberties for a single stone in various Positions")
+  
+  test("Liberties for a single stone with opponent") {
+    var board = emptyBoard(emptyGrid.set(origin, BLACK)
+                                    .set(Position(1,0), WHITE))
+                                    
+    assert(board.liberties(origin).size == 1)
+    assert(board.liberties(origin).contains(Position(0,1)))
+    
+    board = emptyBoard(emptyGrid.set(origin, BLACK)
+                                .set(Position(0,1), WHITE))
+                                    
+    assert(board.liberties(origin).size == 1)
+    assert(board.liberties(origin).contains(Position(1,0)))
+    
+    
+  }//end test("Liberties for a single stone with opponent")
+  
+  
+  test("Liberties for two stones in various Positions") {
+    //FIXME - finish test  
+  }//end test("Liberties for two stones in various Positions")
   
 //  val blackCornerPos : Position = (0,0)
 //  val blackCornerMove : Move = Move(BLACK, blackCornerPos)
