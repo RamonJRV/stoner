@@ -48,14 +48,50 @@ trait Board {
     //}//end else to if (side == EMPTY)
   }//end def findGroup(pos: Position, side: Side)
   
+  /**
+   * Returns a Set of Positions that represent the liberties of the group
+   * associated with the stone at the given position.  
+   * 
+   * @param pos The Position of one stone in a group.
+   * 
+   * @return A Set of Positions representing the liberties of a group containing
+   *  the stone at Position pos, an empty Set if the group has no liberties.
+   *   
+   *  @todo FIXME - unit testing
+   */
   def liberties(pos : Position) : Set[Position] = 
     grid.getNeighbors(pos).filter((p: Position) => grid.get(p) == EMPTY)
   
+  /**
+   * Counts the number of liberties of the group associated with the stone 
+   * at the given Position.
+   * 
+   * @param pos The Position of one stone in a group
+   * 
+   * @return The Set of Positions representing the liberties of the group 
+   * associated with the stone at pos.  An empty Set if the group has no
+   * liberties.
+   * 
+   * @todo FIXME - unit testing
+   */
   def countLiberties(pos: Position) : Set[Position] = {
     identifyGroup(pos).flatMap(liberties)
   }//end def countLiberties(pos: Position) : Set[Position]
   
-  def isAlive(pos: Position) : Boolean = liberties(pos).size > 0
+  /**Determines whether or not the group associated with the stone at Position
+   * pos is alive, e.g. has at least one liberty.
+   * 
+   *  ("While I thought that I was learning how to live, I have been learning
+   *  how to die" - Benjamin Franklin).
+   *  
+   *  @param pos The Position of one stone in a group
+   *  
+   *  @return True if the group associated with the stone at pos is alive, 
+   *   false otherwise.
+   *   
+   *   @todo FIXME - unit testing
+   */
+  def isAlive(pos: Position) : Boolean = liberties(pos).isEmpty
   
   override def toString  = {
     val lines = 
