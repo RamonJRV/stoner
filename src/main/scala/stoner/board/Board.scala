@@ -74,7 +74,7 @@ trait Board {
    * 
    * @todo FIXME - unit testing
    */
-  def countLiberties(pos: Position) : Set[Position] = {
+  def getLiberties(pos: Position) : Set[Position] = {
     identifyGroup(pos).flatMap(liberties)
   }//end def countLiberties(pos: Position) : Set[Position]
   
@@ -91,7 +91,7 @@ trait Board {
    *   
    *   @todo FIXME - unit testing
    */
-  def isAlive(pos: Position) : Boolean = liberties(pos).isEmpty
+  def isAlive(pos: Position) : Boolean = getLiberties(pos).isEmpty
   
   override def toString  = {
     val lines = 
