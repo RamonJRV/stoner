@@ -18,8 +18,25 @@ trait Board {
   
   def +(move : Move) : Board
   
+  /**
+   * Traverses the posManipulationSeq to apply the given PosFlips, from lowest
+   * order position to highest, to the internal Grid state.
+   * 
+   * @param posManipulationSeq A position manipulation sequence specify the 
+   *  steps to adjust the grid.
+   *  
+   * @return A Board with the internal grid representing the changees specificied
+   *  in posManipulationSeq. 
+   */
   def setStones(posManipulationSeq: GenTraversableOnce[PosFlip]) : Board
   
+  /**
+   * Affects the given PosFlip onto the internal grid.
+   * 
+   * @param pf The PosFlip to apply to the grid
+   * 
+   * @return A Board with the updated grid representation.
+   */
   def setStone(pf : PosFlip) = setStones(Array(pf))
   
   /**
@@ -55,13 +72,13 @@ trait Board {
   }//end def findGroup(pos: Position, side: Side)
   
   /**
-   * Returns a Set of Positions that represent the liberties of the group
-   * associated with the stone at the given position.  
+   * Returns a Set of Positions that represent the liberties of the stone at 
+   * the given position.  
    * 
    * @param pos The Position of one stone in a group.
    * 
-   * @return A Set of Positions representing the liberties of a group containing
-   *  the stone at Position pos, an empty Set if the group has no liberties.
+   * @return A Set of Positions representing the liberties of a stone at 
+   * Position pos, an empty Set if the group has no liberties.
    *   
    */
   def liberties(pos : Position) : Set[Position] = 
@@ -77,9 +94,8 @@ trait Board {
    * associated with the stone at pos.  An empty Set if the group has no
    * liberties.
    * 
-   * @todo FIXME - unit testing
    */
-  def getLiberties(pos: Position) : Set[Position] = {
+  def groupLiberties(pos: Position) : Set[Position] = {
     identifyGroup(pos).flatMap(liberties)
   }//end def countLiberties(pos: Position) : Set[Position]
   
@@ -94,9 +110,8 @@ trait Board {
    *  @return True if the group associated with the stone at pos is alive, 
    *   false otherwise.
    *   
-   *   @todo FIXME - unit testing
    */
-  def isAlive(pos: Position) : Boolean = getLiberties(pos).isEmpty
+  def isAlive(pos: Position) : Boolean = !groupLiberties(pos).isEmpty
   
   override def toString  = {
     val lines = 

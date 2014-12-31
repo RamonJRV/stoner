@@ -1,6 +1,6 @@
 name := "stoner"
 
-version := "0.1"
+version := "0.19"
 
 scalaVersion := "2.11.4"
 

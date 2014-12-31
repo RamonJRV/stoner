@@ -175,16 +175,153 @@ class StandardBoardSuite extends FunSuite {
   test("Liberties for two stones in various Positions") {
     var b = (new StandardBoard).setStones(Array(PosFlip(Position(0,0),BLACK),
                                                 PosFlip(Position(0,1),BLACK)))
-                                                
-    assert(b.grid.get(0,0) == BLACK)
-    assert(b.grid.get(0,1) == BLACK)
+    //println(b.toString)
+    //println(b.liberties(Position(0,0)).toString)
+    assert(b.liberties(Position(0,0)).contains(Position(1,0)))
+    assert(b.liberties(Position(0,1)).contains(Position(1,1)))
+    assert(b.liberties(Position(0,1)).contains(Position(0,2)))
     
     b = (new StandardBoard).setStones(Array(PosFlip(Position(0,0),BLACK),
                                             PosFlip(Position(0,1),WHITE)))
                                             
-    assert(b.grid.get(0,0) == BLACK)
-    assert(b.grid.get(0,1) == WHITE)
+    assert(b.liberties(Position(0,0)).contains(Position(1,0)))
+    assert(b.liberties(Position(0,1)).contains(Position(1,1)))
+    assert(b.liberties(Position(0,1)).contains(Position(0,2)))
   }//end test("Liberties for two stones in various Positions")
+  
+  test("Liberties for a three stone bent group") {
+    var b = (new StandardBoard).setStones(Array(PosFlip(Position(0,0),BLACK),
+                                                PosFlip(Position(0,1),BLACK),
+                                                PosFlip(Position(1,0),BLACK)))
+                                                
+    assert(b.liberties(Position(0,0)).isEmpty)
+    
+    assert(b.liberties(Position(0,1)).contains(Position(0,2)))
+    assert(b.liberties(Position(0,1)).contains(Position(1,1)))
+    
+    assert(b.liberties(Position(1,0)).contains(Position(2,0)))
+    assert(b.liberties(Position(1,0)).contains(Position(1,1)))
+    
+  }//end test("Liberties for a three stone bent group")
+  
+  test("groupLiberties on one stone") {
+    var b = (new StandardBoard).setStones(Array(PosFlip(Position(0,0),BLACK)))
+    
+    assert(b.groupLiberties(Position(0,0)).contains(Position(1,0)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(0,1)))
+    
+    b = (new StandardBoard).setStones(Array(PosFlip(Position(1,0),BLACK)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(0,0)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(2,0)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(1,1)))
+    
+    b = (new StandardBoard).setStones(Array(PosFlip(Position(1,1),BLACK)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(1,0)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(0,1)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(1,2)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(2,1)))
+    
+    b = (new StandardBoard).setStones(Array(PosFlip(Position(1,1),WHITE)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(1,0)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(0,1)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(1,2)))
+    assert(b.groupLiberties(Position(0,0)).contains(Position(2,1)))
+    
+  }//end test("groupLiberties on one stone")
+
+  test("group liberties on two stones") {
+    var b = (new StandardBoard).setStones(Array(PosFlip(Position(0,0),BLACK),
+                                                PosFlip(Position(0,1),BLACK)))
+                                                
+    assert(b.groupLiberties(Position(0,0)).contains(Position(0,2)) &&
+           b.groupLiberties(Position(0,1)).contains(Position(0,2)))
+           
+    assert(b.groupLiberties(Position(0,0)).contains(Position(1,1)) &&
+           b.groupLiberties(Position(0,1)).contains(Position(1,1)))
+           
+    assert(b.groupLiberties(Position(0,0)).contains(Position(1,0)) &&
+           b.groupLiberties(Position(0,1)).contains(Position(1,0)))
+  }//end test("group liberties on two stones")
+  
+  test("group liberties on two stones with oponent") {
+    val b = (new StandardBoard).setStones(Array(PosFlip(Position(0,0),BLACK),
+                                                PosFlip(Position(0,1),BLACK),
+                                                PosFlip(Position(0,2),WHITE)))
+                                                
+    assert(!b.groupLiberties(Position(0,0)).contains(Position(0,2)) &&
+           !b.groupLiberties(Position(0,1)).contains(Position(0,2)))
+           
+    assert(b.groupLiberties(Position(0,0)).contains(Position(1,1)) &&
+           b.groupLiberties(Position(0,1)).contains(Position(1,1)))
+           
+    assert(b.groupLiberties(Position(0,0)).contains(Position(1,0)) &&
+           b.groupLiberties(Position(0,1)).contains(Position(1,0)))
+           
+    assert(b.groupLiberties(Position(0,2)).contains(Position(1,2)))
+    assert(b.groupLiberties(Position(0,2)).contains(Position(0,3)))
+  }//end test("group liberties on two stones")
+  
+  test("isAlive one stone 0 - 2 opponents") {
+    var b = (new StandardBoard).setStones(Array(PosFlip(Position(0,0),BLACK)))
+    
+    assert(b.isAlive(Position(0,0)))
+    
+    b = b.setStones(Array(PosFlip(Position(0,1),WHITE)))
+    assert(b.isAlive(Position(0,0)))
+    
+    b = b.setStones(Array(PosFlip(Position(1,0),WHITE)))
+    assert(!b.isAlive(Position(0,0)))
+  }//end test("isAlive one stone 0 - 2 opponents")
+  
+  test("isAlive two stones 0 - 3 opponent") {
+    var b = (new StandardBoard).setStones(Array(PosFlip(Position(0,0),BLACK),
+                                                PosFlip(Position(0,1),BLACK)))
+                                                        
+    assert(b.isAlive(Position(0,0)) && b.isAlive(Position(0,1)))
+    
+    b = b.setStone(PosFlip(Position(0,2), WHITE))
+    assert(b.isAlive(Position(0,0)) && b.isAlive(Position(0,1)))
+    
+    b = b.setStone(PosFlip(Position(1,1), WHITE))
+    assert(b.isAlive(Position(0,0)) && b.isAlive(Position(0,1)))
+    
+    b = b.setStone(PosFlip(Position(1,0), WHITE))
+    assert(!b.isAlive(Position(0,0)) && !b.isAlive(Position(0,1)))
+    
+  }//end test("isAlive two stones 0 -4 opponent")
+  
+  test("I wanted to create an eye :)") {
+    // WWW
+    //WBBBW
+    //WB*BW
+    //WBBBW
+    // WWW
+    
+    var b = (new StandardBoard).setStones(Array(PosFlip(Position(0,1), WHITE),
+                                                PosFlip(Position(0,2), WHITE),
+                                                PosFlip(Position(0,3), WHITE),
+                                                PosFlip(Position(1,0), WHITE),
+                                                PosFlip(Position(1,1), BLACK),
+                                                PosFlip(Position(1,2), BLACK),
+                                                PosFlip(Position(1,3), BLACK),
+                                                PosFlip(Position(1,4), WHITE),
+                                                PosFlip(Position(2,0), WHITE),
+                                                PosFlip(Position(2,1), BLACK),
+                                                PosFlip(Position(2,3), BLACK),
+                                                PosFlip(Position(2,4), WHITE),
+                                                PosFlip(Position(3,0), WHITE),
+                                                PosFlip(Position(3,1), BLACK),
+                                                PosFlip(Position(3,2), BLACK),
+                                                PosFlip(Position(3,3), BLACK),
+                                                PosFlip(Position(3,4), WHITE),
+                                                PosFlip(Position(4,1), WHITE),
+                                                PosFlip(Position(4,2), WHITE),
+                                                PosFlip(Position(4,3), WHITE)))
+                                                
+    b = b.setStone(PosFlip(Position(2,2),WHITE))
+    assert(!b.isAlive(Position(1,1)))
+    
+  }//end test("I wanted to create an eye :)")
   
 //  val blackCornerPos : Position = (0,0)
 //  val blackCornerMove : Move = Move(BLACK, blackCornerPos)
