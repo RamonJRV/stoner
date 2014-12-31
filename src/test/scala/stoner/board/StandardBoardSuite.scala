@@ -157,12 +157,23 @@ class StandardBoardSuite extends FunSuite {
     assert(board.liberties(origin).size == 1)
     assert(board.liberties(origin).contains(Position(1,0)))
     
+    board = emptyBoard(emptyGrid.set(origin,BLACK)
+                                .set(Position(0,1), WHITE)
+                                .set(Position(1,0), WHITE))
+                                
+    assert(board.liberties(origin).size == 0)
     
+    board = emptyBoard(emptyGrid.set(origin, WHITE)
+                                    .set(Position(1,0), BLACK))
+                                    
+    assert(board.liberties(origin).size == 1)
+    assert(board.liberties(origin).contains(Position(0,1)))
+           
+    //... I'm fairly certain WHITE would pass all the same tests as BLACK
   }//end test("Liberties for a single stone with opponent")
   
-  
   test("Liberties for two stones in various Positions") {
-    //FIXME - finish test  
+    
   }//end test("Liberties for two stones in various Positions")
   
 //  val blackCornerPos : Position = (0,0)

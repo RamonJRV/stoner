@@ -1,6 +1,8 @@
 package stoner.board
 
 import scala.annotation.tailrec
+
+import scala.collection.GenTraversableOnce
 import scala.collection.immutable.Set
 import scala.collection.immutable.HashSet
 import scala.Range
@@ -15,6 +17,8 @@ trait Board {
   val grid : Grid
   
   def +(move : Move) : Board
+  
+  def setStones(posManipulationSeq: GenTraversableOnce[PosFlip]) : Board
   
   /**
    * Identifies the Position of all stones that are part of the same group as
@@ -57,7 +61,6 @@ trait Board {
    * @return A Set of Positions representing the liberties of a group containing
    *  the stone at Position pos, an empty Set if the group has no liberties.
    *   
-   *  @todo FIXME - unit testing
    */
   def liberties(pos : Position) : Set[Position] = 
     grid.getNeighbors(pos).filter((p: Position) => grid.get(p) == EMPTY)
