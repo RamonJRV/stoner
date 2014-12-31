@@ -20,6 +20,8 @@ trait Board {
   
   def setStones(posManipulationSeq: GenTraversableOnce[PosFlip]) : Board
   
+  def setStone(pf : PosFlip) = setStones(Array(pf))
+  
   /**
    * Identifies the Position of all stones that are part of the same group as
    * the stone at the given position.

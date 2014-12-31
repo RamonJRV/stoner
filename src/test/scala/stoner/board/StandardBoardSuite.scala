@@ -173,7 +173,11 @@ class StandardBoardSuite extends FunSuite {
   }//end test("Liberties for a single stone with opponent")
   
   test("Liberties for two stones in various Positions") {
-    
+    val b = (new StandardBoard).setStones(Array(PosFlip(Position(0,0),BLACK),
+                                                PosFlip(Position(0,1),BLACK)))
+                                                
+    assert(b.grid.get(0,0) == BLACK)
+    assert(b.grid.get(0,1) == BLACK)
   }//end test("Liberties for two stones in various Positions")
   
 //  val blackCornerPos : Position = (0,0)
