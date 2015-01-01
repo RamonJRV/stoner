@@ -12,11 +12,65 @@ import scala.Range
  * sequence of Grids that represent a game.  Boards are responsible for 
  * "interpreting" Moves into a Grid transition (delta).   
  */
-trait Board {
+class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransition](),
+            val boardDimension : BoardDimension = BoardDimension.STANDARD_BOARD_DIM) {
+    
+  val grids : Array[Grid] = {
+    val zero : Grid = (new CompactGrid(boardDimension))
+    
+     transitions.scanLeft(zero)((g,t) => t match {
+                                  case PosFlip(p,s) => g.set(p,s)
+                                  case m: Move => setStoneWithKill(m)}).toArray
+  }
   
-  val grid : Grid
   
-  def +(move : Move) : Board
+  protected[board] def killAMotherfucker(m: Move) : Set[Position] = m match {
+     case Move(p,s) => {
+       val hypoGrd = grids.last.set(p,s)
+       
+       grids.last.getNeighbors(p)
+                 .filter((p) => hypoGrd.get(p) == otherSide(s))
+                 .filter((p) => !hypoGrd.isAlive(p))
+     }
+   }//end protected[board] def killAMotherfucker(m: Move) : Set[Position] 
+  
+  /**
+   * @todo document this function
+   * @todo FIXME - unit testing
+   */
+  protected[board] def setStoneWithKill(move : Move) : Grid = {
+     val fallenSoldiers = killAMotherfucker(move).flatMap(grids.last.identifyGroup)
+     val bodyCount = fallenSoldiers.size
+     
+     val capturedBlack = 
+       if(move.side == WHITE) grids.last.capturedBlack + bodyCount else grids.last.capturedBlack
+     
+     val capturedWhite = 
+       if(move.side == BLACK) grids.last.capturedWhite + bodyCount else grids.last.capturedWhite 
+    
+     val zero = grids.last
+     
+     //i try very hard not to let my code go beyond 80 chars per line but the 
+     //below expression was too beautiful to break up
+     (zero /: fallenSoldiers)((g:Grid, p: Position) => g.set(p, EMPTY)).set(move.pos, move.side) 
+  }//end override protected[board] def setStonesWithKill(move : Move) : Board
+  
+  def +(pf : PosFlip) : Board = new Board(transitions :+ pf, boardDimension)
+  
+  /**
+   * @todo document this function
+   * @todo FIXME - unit testing
+   */
+  def +(move : Move) : Option[Board] = 
+     if(isKo(move) || grids.last.get(move.pos) != EMPTY) None
+     else Some(new Board(transitions :+ move, boardDimension))
+  
+  /**
+   * @todo document this function
+   * @todo FIXME - unit testing
+   */
+  def isKo(move : Move) : Boolean =             
+    !grids.find(_ == grids.last.set(move.pos, move.side)).isEmpty
   
   /**
    * Traverses the posManipulationSeq to apply the given PosFlips, from lowest
@@ -28,7 +82,8 @@ trait Board {
    * @return A Board with the internal grid representing the changees specificied
    *  in posManipulationSeq. 
    */
-  def setStones(posManipulationSeq: GenTraversableOnce[PosFlip]) : Board
+  def setStones(posManipulationSeq: GenTraversableOnce[PosFlip]) : Board = 
+     new Board(transitions ++ posManipulationSeq, boardDimension)
   
   /**
    * Affects the given PosFlip onto the internal grid.
@@ -38,86 +93,13 @@ trait Board {
    * @return A Board with the updated grid representation.
    */
   def setStone(pf : PosFlip) = setStones(Array(pf))
-  
-  /**
-   * Identifies the Position of all stones that are part of the same group as
-   * the stone at the given position.
-   * @param pos The Position holding the stone
-   * @return The Positions (including the pos parameter) of all stones that are
-   * the same side as the stone at pos if pos is occupied, empty Set otherwise.
-   */
-  def identifyGroup(pos: Position) : Set[Position] = {
-    
-    val side = grid.get(pos)
-    
-    //if (side == EMPTY) Set[Position]() 
-    //else {
-      @tailrec
-      def idGroupRec(posToSearch: Set[Position],acc: Set[Position]) : Set[Position] = {
-        if(posToSearch.isEmpty) acc
-        else {
-          val h = posToSearch.head
-          val t = posToSearch.tail
-          
-          def goodNeighbor(p: Position) : Boolean =
-            grid.get(p) == side && !acc.contains(p) //state farm
-            
-          idGroupRec(grid.getNeighbors(h).filter(goodNeighbor) ++ t,
-                     acc + h)
-        }//end else to if(posToSearch.isEmpty)
-      }//end def idGroupRec(pos: Position, side: Side, acc: Set[Position])
-    
-      idGroupRec(HashSet[Position](pos), new HashSet[Position]())
-    //}//end else to if (side == EMPTY)
-  }//end def findGroup(pos: Position, side: Side)
-  
-  /**
-   * Returns a Set of Positions that represent the liberties of the stone at 
-   * the given position.  
-   * 
-   * @param pos The Position of one stone in a group.
-   * 
-   * @return A Set of Positions representing the liberties of a stone at 
-   * Position pos, an empty Set if the group has no liberties.
-   *   
-   */
-  def liberties(pos : Position) : Set[Position] = 
-    grid.getNeighbors(pos).filter((p: Position) => grid.get(p) == EMPTY)
-  
-  /**
-   * Counts the number of liberties of the group associated with the stone 
-   * at the given Position.
-   * 
-   * @param pos The Position of one stone in a group
-   * 
-   * @return The Set of Positions representing the liberties of the group 
-   * associated with the stone at pos.  An empty Set if the group has no
-   * liberties.
-   * 
-   */
-  def groupLiberties(pos: Position) : Set[Position] = {
-    identifyGroup(pos).flatMap(liberties)
-  }//end def countLiberties(pos: Position) : Set[Position]
-  
-  /**Determines whether or not the group associated with the stone at Position
-   * pos is alive, e.g. has at least one liberty.
-   * 
-   *  ("While I thought that I was learning how to live, I have been learning
-   *  how to die" - Benjamin Franklin).
-   *  
-   *  @param pos The Position of one stone in a group
-   *  
-   *  @return True if the group associated with the stone at pos is alive, 
-   *   false otherwise.
-   *   
-   */
-  def isAlive(pos: Position) : Boolean = !groupLiberties(pos).isEmpty
+ 
   
   override def toString  = {
     val lines = 
       for {
-        r <- Range(0, grid.boardDimension.row)
-      } yield Range(0, grid.boardDimension.column).map((c: Int) => posToChar(grid.get(c,r))).mkString(" ")
+        r <- Range(0, boardDimension.row)
+      } yield Range(0,boardDimension.column).map((c: Int) => posToChar(grids.last.get(c,r))).mkString(" ")
       
     lines.mkString("\n")
   }

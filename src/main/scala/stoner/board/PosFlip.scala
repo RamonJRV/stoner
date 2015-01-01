@@ -11,7 +11,7 @@ package stoner.board
  * @return A Grid representing the state of the grid after the specified flip
  * of Position pos.
  */
-case class PosFlip(val pos : Position, val side : Side) {
+case class PosFlip(val pos : Position, val side : Side) extends StateTransition {
   
   def +(grid : Grid) = grid.set(pos, EMPTY).set(pos, side)
   

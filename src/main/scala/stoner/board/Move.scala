@@ -1,5 +1,5 @@
 package stoner.board
 
-case class Move(val position: Position, val side: Side)
+case class Move(pos: Position,side: Side) extends StateTransition
 
 //31337

@@ -5,7 +5,7 @@ import org.scalatest.FunSuite
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
-import stoner.board.{BLACK,WHITE,STANDARD_COLUMNS,StandardBoard}
+//import stoner.board.{BLACK,WHITE,STANDARD_COLUMNS,StandardBoard}
 
 import stoner.sgfParser.AddWhiteOrBlack.{ADD_BLACK_PROPERTY, ADD_WHITE_PROPERTY}
 

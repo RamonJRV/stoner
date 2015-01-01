@@ -1,5 +1,10 @@
 package stoner.board
 
+import scala.annotation.tailrec
+
+import scala.collection.immutable.HashSet
+import scala.collection.TraversableLike
+import scala.collection.GenTraversableOnce
 import java.util.Arrays
 
 /** A representation of stones on a Go board and the count of each players'
@@ -42,6 +47,8 @@ trait Grid {
    */
   def get(column : Dimension, row : Dimension) : Side = get(Position(column, row))
   
+  def apply(column : Dimension, row : Dimension) = get(column,row)
+  
   /**
    * Sets the side at the given position and returns a new CompactGrid 
    * representing the updated state.
@@ -52,7 +59,12 @@ trait Grid {
    * @return A new CompactGrid with the state updated at the specified side and
    *  pos
    */
-  def set(pos : Position, side : Side) : CompactGrid
+  def set(pos : Position, side : Side) : Grid
+  
+  def set(pf: PosFlip) : Grid = pf match {case PosFlip(p,s) => set(p,s)}
+  
+  def set(pfs : GenTraversableOnce[PosFlip]) : Grid = (this /: pfs)(_ set _)
+    
   
   /**
    * Determines whether or not the given Position is legally within the 
@@ -81,7 +93,82 @@ trait Grid {
    */
   def getNeighbors(pos : Position) : Set[Position] = 
     (iterateAllPossibleNeighbors(pos)).filter(isLegalPosition)
+//////////
+  /**
+   * Returns a Set of Positions that represent the liberties of the stone at 
+   * the given position.  
+   * 
+   * @param pos The Position of one stone in a group.
+   * 
+   * @return A Set of Positions representing the liberties of a stone at 
+   * Position pos, an empty Set if the group has no liberties.
+   *   
+   */
+  def liberties(pos : Position) : Set[Position] = 
+    getNeighbors(pos).filter((p) => get(p) == EMPTY)
+    
+  /**
+   * Identifies the Position of all stones that are part of the same group as
+   * the stone at the given position.
+   * @param pos The Position holding the stone
+   * @return The Positions (including the pos parameter) of all stones that are
+   * the same side as the stone at pos if pos is occupied, empty Set otherwise.
+   */
+  def identifyGroup(pos: Position) : Set[Position] = {
+    
+    val side = get(pos)
+    
+    //if (side == EMPTY) Set[Position]() 
+    //else {
+      @tailrec
+      def idGroupRec(posToSearch: Set[Position],acc: Set[Position]) : Set[Position] = {
+        if(posToSearch.isEmpty) acc
+        else {
+          val h = posToSearch.head
+          val t = posToSearch.tail
+          
+          def goodNeighbor(p: Position) : Boolean =
+            get(p) == side && !acc.contains(p) //state farm
+            
+          idGroupRec(getNeighbors(h).filter(goodNeighbor) ++ t,
+                     acc + h)
+        }//end else to if(posToSearch.isEmpty)
+      }//end def idGroupRec(pos: Position, side: Side, acc: Set[Position])
+    
+      idGroupRec(HashSet[Position](pos), new HashSet[Position]())
+    //}//end else to if (side == EMPTY)
+      
+  }//end def findGroup(pos: Position, side: Side)
   
+  /**
+   * Counts the number of liberties of the group associated with the stone 
+   * at the given Position.
+   * 
+   * @param pos The Position of one stone in a group
+   * 
+   * @return The Set of Positions representing the liberties of the group 
+   * associated with the stone at pos.  An empty Set if the group has no
+   * liberties.
+   * 
+   */
+  def groupLiberties(pos: Position) : Set[Position] = {
+    identifyGroup(pos).flatMap(liberties)
+  }//end def countLiberties(pos: Position) : Set[Position]
+  
+  /**Determines whether or not the group associated with the stone at Position
+   * pos is alive, e.g. has at least one liberty.
+   * 
+   *  ("While I thought that I was learning how to live, I have been learning
+   *  how to die" - Benjamin Franklin).
+   *  
+   *  @param pos The Position of one stone in a group
+   *  
+   *  @return True if the group associated with the stone at pos is alive, 
+   *   false otherwise.
+   *   
+   */
+  def isAlive(pos: Position) : Boolean = !groupLiberties(pos).isEmpty
+/////
   /**
    * Flattens the internal representation of the grid into a 1-D array of Sides.
    */
@@ -89,7 +176,7 @@ trait Grid {
     (for(c <- Range(0,boardDimension.column) ; 
          r <- Range(0,boardDimension.row))
       yield get(c,r)).toArray
-  
+        
   /**
    * Provides a "deep" hashCode of the grid, i.e. based on contents.
    * 

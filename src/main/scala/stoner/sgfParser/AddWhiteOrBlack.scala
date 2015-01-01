@@ -7,7 +7,7 @@ import stoner.board.{BLACK,WHITE,Board,Move,Position}
 
 import PositionTranslator.strRepToPos
 
-import stoner.board.StoneAdder.applyMovesToBoard
+//import stoner.board.StoneAdder.applyMovesToBoard
 
 object AddWhiteOrBlack {
   
@@ -31,8 +31,8 @@ object AddWhiteOrBlack {
       Vector[Move]()
   }
 
-  def applyAddStoneStrToBoard(board : Board, str : String) : Board = 
-    applyMovesToBoard(board, addStoneParser(str))
+//  def applyAddStoneStrToBoard(board : Board, str : String) : Board = 
+//    applyMovesToBoard(board, addStoneParser(str))
 }//end object StoneAdder
 
 //31337

@@ -2,6 +2,8 @@ package stoner.board
 
 import java.util.Arrays
 
+import scala.annotation.tailrec
+
 object CompactGrid {
   
   type Bucket  = Int
@@ -57,7 +59,33 @@ object CompactGrid {
       // BLACK_VALUE = 000...11
       // BLACK_VALUE << (index * BITS_PER_POINT) = 00...11..00
       bucket | (BLACK_VALUE << (index * BITS_PER_POINT))
+  
+  //FIXME - unit testing
+  @Override
+  def parseFlattenedArray(boardDimension : BoardDimension, 
+                          capturedBlack : Int,
+                          capturedWhite : Int,
+                          gridArray : Array[Side]) : Grid = {
+    @tailrec
+    def applyGridArrayRec(index: Int, 
+                          arr: Array[Side], 
+                          grid : Grid) :Grid = {
+      if (arr.isEmpty) grid
+      else {
+        applyGridArrayRec(index+1, 
+                          arr.tail, 
+                          grid.set(Position(index/boardDimension.row,
+                                            index%boardDimension.row),arr.head))
+      }
+    }//end def applyGridArrayRec(index: Int, array: Array[Side], grid : Grid)
     
+    applyGridArrayRec(0, 
+                      gridArray, 
+                      new CompactGrid(boardDimension, 
+                                      capturedBlack,
+                                      capturedWhite,
+                                      CompactGrid.generateGridArray(boardDimension)))
+  }//end parseFlattenedArray(boardDimension : BoardDimension,  
 }//end object CompactGrid
 
 /**
@@ -124,8 +152,13 @@ case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STAN
   @Override
   override def set(pos : Position, side : Side) : CompactGrid = {
      
-    val newBucketValue =   
+    val emptyBucketValue = 
       CompactGrid.setPointValueInBucket(gridArray(getBucketIndex(pos)),
+                                        getPointIndex(pos),
+                                        EMPTY)
+    
+    val newBucketValue =   
+      CompactGrid.setPointValueInBucket(emptyBucketValue,
                                         getPointIndex(pos),
                                         side)
                                         
@@ -134,6 +167,8 @@ case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STAN
                     capturedWhite,
                     gridArray.updated(getBucketIndex(pos), newBucketValue))
   }//end def set(pos : Position, side : Side) : CompactGrid
+  
+  
 }//end case class CompactGrid extends Grid
 
 //31337
