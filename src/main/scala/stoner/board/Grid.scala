@@ -64,7 +64,6 @@ trait Grid {
   def set(pf: PosFlip) : Grid = pf match {case PosFlip(p,s) => set(p,s)}
   
   def set(pfs : GenTraversableOnce[PosFlip]) : Grid = (this /: pfs)(_ set _)
-    
   
   /**
    * Determines whether or not the given Position is legally within the 
@@ -93,7 +92,7 @@ trait Grid {
    */
   def getNeighbors(pos : Position) : Set[Position] = 
     (iterateAllPossibleNeighbors(pos)).filter(isLegalPosition)
-//////////
+
   /**
    * Returns a Set of Positions that represent the liberties of the stone at 
    * the given position.  
@@ -118,25 +117,22 @@ trait Grid {
     
     val side = get(pos)
     
-    //if (side == EMPTY) Set[Position]() 
-    //else {
-      @tailrec
-      def idGroupRec(posToSearch: Set[Position],acc: Set[Position]) : Set[Position] = {
-        if(posToSearch.isEmpty) acc
-        else {
-          val h = posToSearch.head
-          val t = posToSearch.tail
-          
-          def goodNeighbor(p: Position) : Boolean =
-            get(p) == side && !acc.contains(p) //state farm
-            
-          idGroupRec(getNeighbors(h).filter(goodNeighbor) ++ t,
-                     acc + h)
-        }//end else to if(posToSearch.isEmpty)
-      }//end def idGroupRec(pos: Position, side: Side, acc: Set[Position])
-    
-      idGroupRec(HashSet[Position](pos), new HashSet[Position]())
-    //}//end else to if (side == EMPTY)
+    @tailrec
+    def idGroupRec(posToSearch: Set[Position],
+                   acc: Set[Position]) : Set[Position]= {
+      if(posToSearch.isEmpty) acc
+      else {
+    	val h = posToSearch.head
+    	val t = posToSearch.tail
+
+    	//state farm
+    	def goodNeighbor(p: Position) = get(p) == side && !acc.contains(p) 
+
+    	idGroupRec(getNeighbors(h).filter(goodNeighbor) ++ t,acc + h)
+      }//end else to if(posToSearch.isEmpty)
+    }//end def idGroupRec(pos: Position, side: Side, acc: Set[Position])
+
+    idGroupRec(HashSet[Position](pos), new HashSet[Position]())
       
   }//end def findGroup(pos: Position, side: Side)
   
@@ -168,7 +164,7 @@ trait Grid {
    *   
    */
   def isAlive(pos: Position) : Boolean = !groupLiberties(pos).isEmpty
-/////
+
   /**
    * Flattens the internal representation of the grid into a 1-D array of Sides.
    */
@@ -184,7 +180,7 @@ trait Grid {
    * collision probability of two disimilar grids is 1/2^32.
    */
   @Override
-  override def hashCode : Int = Arrays.hashCode(flatten)
+  override def hashCode = Arrays.hashCode(flatten)
   
   /**
    * Provides a "deep" equality check based on the grid.
