@@ -60,32 +60,6 @@ object CompactGrid {
       // BLACK_VALUE << (index * BITS_PER_POINT) = 00...11..00
       bucket | (BLACK_VALUE << (index * BITS_PER_POINT))
   
-  //FIXME - unit testing
-  @Override
-  def parseFlattenedArray(boardDimension : BoardDimension, 
-                          capturedBlack : Int,
-                          capturedWhite : Int,
-                          gridArray : Array[Side]) : Grid = {
-    @tailrec
-    def applyGridArrayRec(index: Int, 
-                          arr: Array[Side], 
-                          grid : Grid) :Grid = {
-      if (arr.isEmpty) grid
-      else {
-        applyGridArrayRec(index+1, 
-                          arr.tail, 
-                          grid.set(Position(index/boardDimension.row,
-                                            index%boardDimension.row),arr.head))
-      }
-    }//end def applyGridArrayRec(index: Int, array: Array[Side], grid : Grid)
-    
-    applyGridArrayRec(0, 
-                      gridArray, 
-                      new CompactGrid(boardDimension, 
-                                      capturedBlack,
-                                      capturedWhite,
-                                      CompactGrid.generateGridArray(boardDimension)))
-  }//end parseFlattenedArray(boardDimension : BoardDimension,  
 }//end object CompactGrid
 
 /**
