@@ -116,7 +116,7 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    *  
    * @todo FIXME - unit testing
    */
-  def isKo(move : Move) = !grids.find(_ == setStoneWithKill(move)).isEmpty
+  def isKo(move : Move) = !grids.exists(_ == setStoneWithKill(move))
   
   /**
    * Traverses the posManipulationSeq to apply the given PosFlips, from lowest
