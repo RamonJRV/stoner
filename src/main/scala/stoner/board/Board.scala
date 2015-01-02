@@ -37,6 +37,8 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    * 
    * @return The Set of Positions that represent the stones that have been
    *  killed as a result of the placement of Move m. 
+   *  
+   *  @todo FIXME - unit testing
    */
   protected[board] def killAMotherfucker(m: Move) : Set[Position] = m match {
      case Move(p,s) => {
@@ -56,6 +58,8 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    * 
    * @return The Grid representing the state change (placement + death) caused
    * by move.
+   * 
+   * @todo FIXME - unit testing
    */
   protected[board] def setStoneWithKill(move : Move) : Grid = {
      val fallenSoldiers = killAMotherfucker(move).flatMap(grids.last.identifyGroup)
@@ -66,10 +70,8 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
      
      val capturedWhite = 
        if(move.side == BLACK) grids.last.capturedWhite + bodyCount else grids.last.capturedWhite 
-    
-     val zero = grids.last
      
-     (zero /: fallenSoldiers)(_.set(_, EMPTY)).set(move.pos, move.side) 
+     (grids.last /: fallenSoldiers)(_.set(_, EMPTY)).set(move.pos, move.side) 
      
   }//end override protected[board] def setStonesWithKill(move : Move) : Board
   
@@ -84,6 +86,8 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    * state.
    * 
    * @see +(move: Move) 
+   * 
+   * @todo FIXME - unit testing
    */
   def +(pf : PosFlip) : Board = new Board(transitions :+ pf, boardDimension)
   
@@ -95,6 +99,8 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    * 
    * A new Board representing the updated state of the Board after the move if
    * it was legal, None otherwise.
+   * 
+   * @todo FIXME - unit testing
    */
   def +(move : Move) : Option[Board] = 
      if(isKo(move) || grids.last.get(move.pos) != EMPTY) None
@@ -107,9 +113,10 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    * 
    * @return True if the given move would be a ko (Japanese style), false 
    *  otherwise.
+   *  
+   * @todo FIXME - unit testing
    */
-  def isKo(move : Move) : Boolean = 
-    !grids.find(_ == setStoneWithKill(move)).isEmpty
+  def isKo(move : Move) = !grids.find(_ == setStoneWithKill(move)).isEmpty
   
   /**
    * Traverses the posManipulationSeq to apply the given PosFlips, from lowest
@@ -119,7 +126,9 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    *  steps to adjust the grid.
    *  
    * @return A Board with the internal grid representing the changees specificied
-   *  in posManipulationSeq. 
+   *  in posManipulationSeq.
+   *  
+   * @todo FIXME - unit testing 
    */
   def setStones(posManipulationSeq: GenTraversableOnce[PosFlip]) : Board = 
      new Board(transitions ++ posManipulationSeq, boardDimension)
@@ -130,6 +139,8 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    * @param pf The PosFlip to apply to the grid
    * 
    * @return A Board with the updated grid representation.
+   * 
+   * @todo FIXME - unit testing
    */
   def setStone(pf : PosFlip) = setStones(Array(pf))
  
