@@ -145,6 +145,9 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
   def setStone(pf : PosFlip) = setStones(Array(pf))
  
   
+  /**
+   * Prints a pretty representation of the Board.
+   */
   override def toString  = {
     val lines = 
       for {
