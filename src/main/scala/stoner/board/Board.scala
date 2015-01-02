@@ -18,12 +18,12 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
   /**A sequence of intermediate grid states from the initial empty board to
    * the most current state: grids.last.
    */
-  val grids : Array[Grid] = {
+  val grids = {
     val zero : Grid = (new CompactGrid(boardDimension))
     
      transitions.scanLeft(zero)((g,t) => t match {
                                   case PosFlip(p,s) => g.set(p,s)
-                                  case m: Move => setStoneWithKill(m)}).toArray
+                                  case m: Move => setStoneWithKill(m)})
   }
   
   /**
@@ -108,8 +108,8 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    * @return True if the given move would be a ko (Japanese style), false 
    *  otherwise.
    */
-  def isKo(move : Move) : Boolean =             
-    !grids.find(_ == grids.last.set(move.pos, move.side)).isEmpty
+  def isKo(move : Move) : Boolean = 
+    !grids.find(_ == setStoneWithKill(move)).isEmpty
   
   /**
    * Traverses the posManipulationSeq to apply the given PosFlips, from lowest
