@@ -5,9 +5,8 @@ Everything and then some!
 Short Term 
 ----------
 1. Finish parsing framework to read in the GoGoD Data (sgfParser).
-2. Create ko checker based on hashing function of Byte array representing board states.
-3. Write a converter that turns a sequence of positions into "features" for ML.
-4. Implement an SVN to predict winner given a board position.
+2. Write a converter that turns a sequence of positions into "features" for ML.
+3. Implement an SVN to predict winner given a board position.
 
 Medium Term
 -----------
