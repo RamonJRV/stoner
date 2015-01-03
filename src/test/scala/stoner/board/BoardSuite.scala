@@ -29,18 +29,48 @@ class StandardBoardSuite extends FunSuite {
     
     for (c <- Range(0,b.boardDimension.column);
          r <- Range(0,b.boardDimension.row);
-         if (c > 0 || r > 0))  
+         if (c > 0 || r > 0))  {
       assert(b.isEmpty(Position(c,r)))
-      
+      assert(!emptyBoard.isSuicide(Move(Position(c,r), BLACK)))
+      assert(!emptyBoard.isKo(Move(Position(c,r), BLACK)))
+    }
+    
+    b = new Board(Array[StateTransition](Move(origin, BLACK)))
+        
+    assert(b.grids.last.get(origin) == BLACK)
+    
+    for (c <- Range(0,b.boardDimension.column);
+         r <- Range(0,b.boardDimension.row);
+         if (c > 0 || r > 0))  {
+      assert(b.isEmpty(Position(c,r)))
+      assert(!emptyBoard.isSuicide(Move(Position(c,r), BLACK)))
+      assert(!emptyBoard.isKo(Move(Position(c,r), BLACK)))
+    }
+    
     b = new Board(Array[StateTransition](PosFlip(Position(1,1), BLACK)))
         
     assert(b.grids.last.get(Position(1,1)) == BLACK)
     
     for (c <- Range(0,b.boardDimension.column);
          r <- Range(0,b.boardDimension.row);
-         if (c != r))  
+         if (c != r)) {  
       assert(b.isEmpty(Position(c,r)))
-      
+      assert(!emptyBoard.isSuicide(Move(Position(c,r), BLACK)))
+      assert(!emptyBoard.isKo(Move(Position(c,r), BLACK)))
+    }
+    
+    b = new Board(Array[StateTransition](Move(Position(1,1), BLACK)))
+        
+    assert(b.grids.last.get(Position(1,1)) == BLACK)
+    
+    for (c <- Range(0,b.boardDimension.column);
+         r <- Range(0,b.boardDimension.row);
+         if (c != r)) {  
+      assert(b.isEmpty(Position(c,r)))
+      assert(!emptyBoard.isSuicide(Move(Position(c,r), BLACK)))
+      assert(!emptyBoard.isKo(Move(Position(c,r), BLACK)))
+    }
+    
     b = new Board(Array[StateTransition](PosFlip(origin, WHITE)))
         
     assert(b.grids.last.get(origin) == WHITE)
@@ -63,8 +93,11 @@ class StandardBoardSuite extends FunSuite {
     
     for (c <- Range(0,b.boardDimension.column);
          r <- Range(0,b.boardDimension.row);
-         if (c > 1 || r > 1))  
+         if (c > 1 || r > 1)) {
       assert(b.isEmpty(Position(c,r)))
+      assert(!emptyBoard.isSuicide(Move(Position(c,r), BLACK)))
+      assert(!emptyBoard.isKo(Move(Position(c,r), BLACK)))
+    }
   }//end test("Board constructor properly places multiple StateTransitions")
   
 }//end object BoardAndMoveSuite extends FunSuite

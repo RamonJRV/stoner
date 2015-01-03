@@ -124,6 +124,13 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
   def isSuicide(move : Move) = 
     Board.setStoneWithKill(move, grids.last).liberties(move.pos) == 0
   
+  /**
+   * Determines whether or not the given Position is EMPTY.
+   * 
+   * @param pos The Position to check emptiness for.
+   * 
+   * @return True if the given Position is empty, false otherwise.
+   */
   def isEmpty(pos : Position) = Board.isEmpty(pos, grids.last)
   
   /**
