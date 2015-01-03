@@ -65,6 +65,10 @@ trait Grid {
   
   def set(pfs : GenTraversableOnce[PosFlip]) : Grid = (this /: pfs)(_ set _)
   
+  
+  def setCapturedBlack(captured: Int) : Grid
+  def setCapturedWhite(captured: Int) : Grid
+  
   /**
    * Determines whether or not the given Position is legally within the 
    * dimensions of the grid.

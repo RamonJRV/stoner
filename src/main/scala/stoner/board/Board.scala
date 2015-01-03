@@ -7,25 +7,7 @@ import scala.collection.immutable.Set
 import scala.collection.immutable.HashSet
 import scala.Range
 
-/**
- * The Board (I mean Borg) is responsible for maintaining and updating the 
- * sequence of Grids that represent a game.  Boards are responsible for 
- * "interpreting" Moves into a Grid transition (delta).   
- */
-class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransition](),
-            val boardDimension : BoardDimension = BoardDimension.STANDARD_BOARD_DIM) {
-    
-  /**A sequence of intermediate grid states from the initial empty board to
-   * the most current state: grids.last.
-   */
-  val grids = {
-    val zero : Grid = (new CompactGrid(boardDimension))
-    
-     transitions.scanLeft(zero)((g,t) => t match {
-                                  case PosFlip(p,s) => g.set(p,s)
-                                  case m: Move => setStoneWithKill(m)})
-  }
-  
+object Board {
   /**
    * "And you will know my name is the Lord when I lay my vengeance upon you!"
    * - Pulp Fiction
@@ -40,13 +22,13 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    *  
    *  @todo FIXME - unit testing
    */
-  protected[board] def killAMotherfucker(m: Move) : Set[Position] = m match {
+  protected[board] def killAMotherfucker(m: Move, grid: Grid) : Set[Position] = m match {
      case Move(p,s) => {
-       val hypoGrd = grids.last.set(p,s)
+       val hypoGrd = grid.set(p,s)
        
-       grids.last.getNeighbors(p)
-                 .filter((p) => hypoGrd.get(p) == otherSide(s))
-                 .filter((p) => !hypoGrd.isAlive(p))
+       grid.getNeighbors(p)
+           .filter((p) => hypoGrd.get(p) == otherSide(s))
+           .filter((p) => !hypoGrd.isAlive(p))
      }
    }//end protected[board] def killAMotherfucker(m: Move) : Set[Position] 
   
@@ -61,19 +43,58 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    * 
    * @todo FIXME - unit testing
    */
-  protected[board] def setStoneWithKill(move : Move) : Grid = {
-     val fallenSoldiers = killAMotherfucker(move).flatMap(grids.last.identifyGroup)
+  protected[board] def setStoneWithKill(move : Move, grid: Grid) : Grid = {
+     val fallenSoldiers = killAMotherfucker(move,grid).flatMap(grid.identifyGroup)
      val bodyCount = fallenSoldiers.size
      
      val capturedBlack = 
-       if(move.side == WHITE) grids.last.capturedBlack + bodyCount else grids.last.capturedBlack
+       if(move.side == WHITE) grid.capturedBlack + bodyCount 
+       else grid.capturedBlack
      
      val capturedWhite = 
-       if(move.side == BLACK) grids.last.capturedWhite + bodyCount else grids.last.capturedWhite 
+       if(move.side == BLACK) grid.capturedWhite + bodyCount 
+       else grid.capturedWhite 
      
-     (grids.last /: fallenSoldiers)(_.set(_, EMPTY)).set(move.pos, move.side) 
+     (grid /: fallenSoldiers)(_.set(_, EMPTY)).set(move.pos, move.side) 
+                                              .setCapturedBlack(capturedBlack)
+                                              .setCapturedWhite(capturedWhite)
      
   }//end override protected[board] def setStonesWithKill(move : Move) : Board
+
+  /**
+   * Determines whether or not the specified Move is a suicide move.  A suicide
+   * is the placement of a stone that doesn't kill any of its neighbors but
+   * has zero liberties after placing the stone on the board.
+   * 
+   * @param move The move to test "suicide-ality" of 
+   * 
+   * True if the given move would result in suicide, false otherwise.
+   */
+  def isSuicide(move : Move, grid : Grid) = 
+    setStoneWithKill(move, grid).liberties(move.pos) == 0
+  
+  def isEmpty(pos : Position, grid : Grid) = grid.get(pos) == EMPTY
+  
+}//end object Board
+
+/**
+ * The Board (I mean Borg) is responsible for maintaining and updating the 
+ * sequence of Grids that represent a game.  Boards are responsible for 
+ * "interpreting" Moves into a Grid transition (delta).   
+ */
+class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransition](),
+            val boardDimension : BoardDimension = BoardDimension.STANDARD_BOARD_DIM) {
+    
+  /**A sequence of intermediate grid states from the initial empty board to
+   * the most current state: grids.last.
+   */
+  val grids = {
+    val zero : Grid = (new CompactGrid(boardDimension))
+    
+    transitions.scanLeft(zero)((g,t) => t match {
+                                 case PosFlip(p,s) => g.set(p,s)
+                                 case m: Move => Board.setStoneWithKill(m,g)})
+  }//end val grids =
   
   /**
    * Applies the specified PosFlip to the Grid irregardless of whether or not
@@ -92,6 +113,46 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
   def +(pf : PosFlip) : Board = new Board(transitions :+ pf, boardDimension)
   
   /**
+   * Determines whether or not the specified Move is a suicide move.  A suicide
+   * is the placement of a stone that doesn't kill any of its neighbors but
+   * has zero liberties after placing the stone on the board.
+   * 
+   * @param move The move to test "suicide-ality" of 
+   * 
+   * True if the given move would result in suicide, false otherwise.
+   */
+  def isSuicide(move : Move) = 
+    Board.setStoneWithKill(move, grids.last).liberties(move.pos) == 0
+  
+  def isEmpty(pos : Position) = Board.isEmpty(pos, grids.last)
+  
+  /**
+   * Determines if the given move is a legl move according to the rules of Go.
+   * 
+   * @param move The move the test legality of
+   * 
+   * True if the given move is legal, false otherwise.
+   */
+  def isLegalMove(move : Move) =
+    (Board.isEmpty(move.pos, grids.last) &&
+     !isKo(move) && 
+     !Board.isSuicide(move, grids.last))
+     
+  /**
+   * Determines whether or not the given move is a ko move of the game.
+   * 
+   * @param move The move to decide if it is a ko.
+   * 
+   * @return True if the given move would be a ko (Japanese style), false 
+   *  otherwise.
+   *  
+   * @todo FIXME - unit testing
+   */
+  def isKo(move : Move) = 
+    grids.exists(_ == Board.setStoneWithKill(move, grids.last))
+  
+  
+  /**
    * Applies the specified Move to the Grid if the move is legal, e.g. it does
    * not represent a ko move and does not set the side of an occupied Position.
    * 
@@ -103,20 +164,10 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    * @todo FIXME - unit testing
    */
   def +(move : Move) : Option[Board] = 
-     if(isKo(move) || grids.last.get(move.pos) != EMPTY) None
-     else Some(new Board(transitions :+ move, boardDimension))
+     if(isLegalMove(move)) Some(new Board(transitions :+ move, boardDimension))
+     else None
   
-  /**
-   * Determines whether or not the given move is a ko move of the game.
-   * 
-   * @param move The move to decide if it is a ko.
-   * 
-   * @return True if the given move would be a ko (Japanese style), false 
-   *  otherwise.
-   *  
-   * @todo FIXME - unit testing
-   */
-  def isKo(move : Move) = !grids.exists(_ == setStoneWithKill(move))
+  
   
   /**
    * Traverses the posManipulationSeq to apply the given PosFlips, from lowest

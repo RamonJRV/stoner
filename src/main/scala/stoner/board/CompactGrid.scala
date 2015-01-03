@@ -142,6 +142,17 @@ case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STAN
                     gridArray.updated(getBucketIndex(pos), newBucketValue))
   }//end def set(pos : Position, side : Side) : CompactGrid
   
+  override def setCapturedBlack(captured: Int) =
+    new CompactGrid(boardDimension,
+                    capturedBlack+captured,
+                    capturedWhite,
+                    gridArray)
+  
+  override def setCapturedWhite(captured: Int) =
+    new CompactGrid(boardDimension,
+                    capturedBlack,
+                    capturedWhite+captured,
+                    gridArray)
   
 }//end case class CompactGrid extends Grid
 
