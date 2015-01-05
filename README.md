@@ -2,9 +2,10 @@ stoner (as in [Go stone](http://en.wikipedia.org/wiki/Go_equipment#Stones), you 
 ==================================
 A research project to develop an [automated](http://en.wikipedia.org/wiki/Artificial_intelligence) [Go](http://en.wikipedia.org/wiki/Go_(game)) player utilizing machine learning techniques rather than typical tree descent searches.  The primary language will be [Scala](http://www.scala-lang.org).
 
+I think there is mathematical poetry in Go and I want to teach a computer to contribute a verse.
+
 ![](https://lh3.googleusercontent.com/_B1UBiW-spfA/TPMDzWlZQpI/AAAAAAAACRs/UNc7Qflkf9w/TNG%2B54%2BBooby%2BTrap%2BData%2B-%2BWesley.jpg)
 
-I think there is mathematical poetry in Go and I want to teach a computer to contribute a verse.
 
 Problem Formulation
 -------------------
