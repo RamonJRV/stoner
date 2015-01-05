@@ -4,6 +4,8 @@ A research project to develop an [automated](http://en.wikipedia.org/wiki/Artifi
 
 ![](https://lh3.googleusercontent.com/_B1UBiW-spfA/TPMDzWlZQpI/AAAAAAAACRs/UNc7Qflkf9w/TNG%2B54%2BBooby%2BTrap%2BData%2B-%2BWesley.jpg)
 
+I think there is mathematical poetry in Go and I want to teach a computer to contribute a verse.
+
 Problem Formulation
 -------------------
 The problem I wish to solve is as follows:
