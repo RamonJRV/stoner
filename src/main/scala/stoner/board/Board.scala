@@ -20,7 +20,6 @@ object Board {
    * @return The Set of Positions that represent the stones that have been
    *  killed as a result of the placement of Move m. 
    *  
-   *  @todo FIXME - unit testing
    */
   protected[board] def killAMotherfucker(m: Move, grid: Grid) : Set[Position] = m match {
      case Move(p,s) => {
@@ -41,7 +40,6 @@ object Board {
    * @return The Grid representing the state change (placement + death) caused
    * by move.
    * 
-   * @todo FIXME - unit testing
    */
   protected[board] def setStoneWithKill(move : Move, grid: Grid) : Grid = {
      val fallenSoldiers = killAMotherfucker(move,grid).flatMap(grid.identifyGroup)
