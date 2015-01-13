@@ -15,6 +15,7 @@ object SGFStringParser {
       var winner_o = EMPTY
       
       for(line <- lines.tail) {
+        
         if(line.startsWith("RE")) {
           if(line(3) == 'B') winner_o = BLACK
           else winner_o = WHITE
@@ -26,10 +27,10 @@ object SGFStringParser {
         }
         else if(line.startsWith(";")) {
           val moves = line.split(';').filter(_.size > 0)
-          st_o ++ moves.map((m : String) => Move(PositionTranslator.strRepToPos(m.substring(2,4)),
-                                                 sideMap(m(0))))
+          st_o ++= moves.map((m : String) => Move(PositionTranslator.strRepToPos(m.substring(2,4)),
+                                                  sideMap(m(0))))
         }
-      }
+      }//end for(line <- lines.tail)
       
       Some(Game(new Board(st_o), winner_o))
     }
