@@ -10,7 +10,7 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class sgfParserSuite extends FunSuite {
   
-  val testList = Source.fromFile("/Users/ramonromeroyvigil/Documents/experimentalData/go/GoGoD/Database/0196-1699/1698-12-21a.sgf").getLines.toList
+  val testList = Source.fromFile("/GoGoD/Database/0196-1699/1698-12-21a.sgf").getLines.toList
 
   test("Test List is Valid") {
     assert(testList.size > 0)
