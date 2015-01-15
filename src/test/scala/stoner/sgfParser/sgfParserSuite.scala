@@ -10,7 +10,8 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class sgfParserSuite extends FunSuite {
   
-  val testList = Source.fromFile("/GoGoD/Database/0196-1699/1698-12-21a.sgf").getLines.toList
+  println(System.getProperty("user.dir"))
+  val testList = Source.fromFile("src/main/resources/GoGoD/Database/0196-1699/1698-12-21a.sgf").getLines.toList
 
   test("Test List is Valid") {
     assert(testList.size > 0)
@@ -20,8 +21,6 @@ class sgfParserSuite extends FunSuite {
   
   test("Game Parsing of test list") {
     val game = SGFStringParser.parseLines(testList)
-    
-    println(game.get)
     
     assert(game.isDefined)
   }
