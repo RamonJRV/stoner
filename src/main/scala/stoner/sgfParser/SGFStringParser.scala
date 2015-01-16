@@ -14,19 +14,19 @@ object SGFStringParser {
       val st_o = new ArrayBuffer[StateTransition]
       var winner_o = EMPTY
       
-      for(line <- lines.tail) {
+      for(line <- lines.drop(1)) {
         
         if(line.startsWith("RE")) {
           if(line(3) == 'B') winner_o = BLACK
           else if(line(3) == 'W') winner_o = WHITE
         }//end if(line.startsWith("RE"))
         else if(line.startsWith("AB")) {
-          for(s <- line.drop(1).sliding(2, 4)) {
+          for(s <- line.drop(3).sliding(2, 4)) {
             st_o.append(PosFlip(PositionTranslator.strRepToPos(s), BLACK))
           }
         }//end else if(line.startsWith("AB"))
         else if(line.startsWith("AW")) {
-          for(s <- line.drop(1).sliding(2, 4)) {
+          for(s <- line.drop(3).sliding(2, 4)) {
             st_o.append(PosFlip(PositionTranslator.strRepToPos(s), WHITE))
           }
         }//end else if(line.startsWith("AW"))
