@@ -5,6 +5,7 @@ import stoner.board.{Side, StateTransition, WHITE, BLACK, EMPTY, PosFlip,Move,Ga
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.immutable.Traversable
 import scala.io.Source
+import java.io.File
 
 object SGFStringParser {
   
@@ -12,6 +13,9 @@ object SGFStringParser {
   
   def parseLines(fileName : String) : Option[Game] = 
     parseLines(Source.fromFile(fileName).getLines.toList)
+    
+  def parseLines(file : File) : Option[Game] = 
+    parseLines(Source.fromFile(file).getLines.toList)
   
   def parseLines(lines : Traversable[String]) : Option[Game] = {
     if (!lines.head.startsWith("(;SZ[19]")) None
