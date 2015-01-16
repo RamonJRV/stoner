@@ -2,6 +2,8 @@ package stoner.sgfParser
 
 import scala.io.Source
 
+import java.io.File
+
 import org.scalatest.FunSuite
 
 import org.junit.runner.RunWith
@@ -39,6 +41,7 @@ class sgfParserSuite extends FunSuite {
     assert(game.isDefined)
     assert(game.get.winner == EMPTY)
   }//end test("Game Parsing of Unknown Winner")
+  
   
 }//end class sgfParserSuite
 
