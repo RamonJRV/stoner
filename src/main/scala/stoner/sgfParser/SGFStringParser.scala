@@ -3,12 +3,17 @@ package stoner.sgfParser
 import stoner.board.{Side, StateTransition, WHITE, BLACK, EMPTY, PosFlip,Move,Game,Board}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.collection.immutable.Traversable
+import scala.io.Source
 
 object SGFStringParser {
   
   val sideMap = Map('B' -> BLACK, 'W' -> WHITE)
   
-  def parseLines(lines : List[String]) : Option[Game] = {
+  def parseLines(fileName : String) : Option[Game] = 
+    parseLines(Source.fromFile(fileName).getLines.toList)
+  
+  def parseLines(lines : Traversable[String]) : Option[Game] = {
     if (!lines.head.startsWith("(;SZ[19]")) None
     else {
       val st_o = new ArrayBuffer[StateTransition]
