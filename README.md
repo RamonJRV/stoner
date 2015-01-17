@@ -6,6 +6,10 @@ I think there is mathematical poetry in Go and I want to teach a computer to con
 
 ![](https://lh3.googleusercontent.com/_B1UBiW-spfA/TPMDzWlZQpI/AAAAAAAACRs/UNc7Qflkf9w/TNG%2B54%2BBooby%2BTrap%2BData%2B-%2BWesley.jpg)
 
+Results will be posted at:
+
+* [Programming Research](https://github.com/RJRyV/stoner/wiki/Programming-Research)
+* [Machine Learning Research](https://github.com/RJRyV/stoner/wiki/Machine-Learning-Research)
 
 Problem Formulation
 -------------------
