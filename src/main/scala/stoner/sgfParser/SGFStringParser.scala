@@ -11,12 +11,34 @@ object SGFStringParser {
   
   val sideMap = Map('B' -> BLACK, 'W' -> WHITE)
   
+  /**
+   * Parses the lines of a file into a Game.
+   * 
+   * @param fileName the name of a file to open, read, and parse.
+   * 
+   * @return A Some(Game) if the file was parsable, None otherwise.
+   */
   def parseLines(fileName : String) : Option[Game] = 
     parseLines(Source.fromFile(fileName).getLines.toList)
     
+  
+  /**
+   * Parses the lines of a file into a Game.
+   * 
+   * @param file the File to open, read, and parse.
+   * 
+   * @return A Some(Game) if the file was parsable, None otherwise.
+   */
   def parseLines(file : File) : Option[Game] = 
     parseLines(Source.fromFile(file).getLines.toList)
   
+  /**
+   * Parses a sequence of Strings into a Game.
+   * 
+   * @param lines the Strings to parse.
+   * 
+   * @return A Some(Game) if the Strings were parsable, None otherwise.
+   */
   def parseLines(lines : Traversable[String]) : Option[Game] = {
     if (!lines.head.startsWith("(;SZ[19]")) None
     else {
@@ -47,7 +69,7 @@ object SGFStringParser {
       }//end for(line <- lines.tail)
       
       Some(Game(new Board(st_o), winner_o))
-    }
+    }//end else to if (!lines.head.startsWith("(;SZ[19]"))
   }//end def parseLines(lines : List[String])
 
 }//end object SGFStringParser

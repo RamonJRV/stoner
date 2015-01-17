@@ -105,8 +105,6 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
    * state.
    * 
    * @see +(move: Move) 
-   * 
-   * @todo FIXME - unit testing
    */
   def +(pf : PosFlip) : Board = new Board(transitions :+ pf, boardDimension)
   
