@@ -4,9 +4,8 @@ Everything and then some!
 
 Short Term 
 ----------
-1. Finish parsing framework to read in the GoGoD Data (sgfParser).
-2. Write a converter that turns a sequence of positions into "features" for ML.
-3. Implement an SVN to predict winner given a board position.
+1. Write a converter that turns a sequence of positions into "features" for ML.
+2. Implement an SVN to predict winner given a board position.
 
 Medium Term
 -----------
