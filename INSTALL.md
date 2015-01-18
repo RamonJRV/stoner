@@ -7,7 +7,9 @@ Prerequisites
 
 1. Scala (2.11.4)
 2. sbt (0.13.7)
-3. Optional: ScalaIDE
+3. apache spark cluster (1.2.0, [built with scala 2.11.4](https://spark.apache.org/docs/latest/building-spark.html#building-for-scala-211))
+4. Optional: ScalaIDE
+
 
 Steps
 -----
