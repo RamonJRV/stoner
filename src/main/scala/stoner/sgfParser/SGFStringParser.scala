@@ -4,12 +4,14 @@ import stoner.board.{Side, StateTransition, WHITE, BLACK, EMPTY, PosFlip,Move,Ga
 
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.immutable.Traversable
+import scala.collection.Map
+
 import scala.io.Source
 import java.io.File
 
 object SGFStringParser {
   
-  val sideMap = Map('B' -> BLACK, 'W' -> WHITE)
+  val sideMap = Map(('B',BLACK), ('W',WHITE))
   
   /**
    * Parses the lines of a file into a Game.

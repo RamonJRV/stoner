@@ -202,14 +202,7 @@ class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransitio
   /**
    * Prints a pretty representation of the Board.
    */
-  override def toString  = {
-    val lines = 
-      for {
-        r <- Range(0, boardDimension.row)
-      } yield Range(0,boardDimension.column).map((c: Int) => posToChar(grids.last.get(c,r))).mkString(" ")
-      
-    lines.mkString("\n")
-  }
+  override def toString  = grids.last.toString
 }//end trait Board
 
 //31337

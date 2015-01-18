@@ -17,7 +17,7 @@ class GoGoDParserSuite extends FunSuite {
   }//end test("Recursive List files")
   
   test("getGamesFromSGFFiles works") {
-    val games = GoGoDParser.getGamesFromSGFFiles(GoGoDParser.GO_GO_D_DIR + "2007")
+    val games = GoGoDParser.getGamesFromSGFFile(GoGoDParser.GO_GO_D_DIR + "2007")
     
     assert(games.length > 0)
   }

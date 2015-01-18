@@ -177,6 +177,11 @@ trait Grid {
          r <- Range(0,boardDimension.row))
       yield get(c,r)).toArray
         
+      
+  def flattenNumeric : Array[Float] =
+    (for(c <- Range(0,boardDimension.column) ; 
+         r <- Range(0,boardDimension.row))
+      yield get(c,r).toFloat).toArray
   /**
    * Provides a "deep" hashCode of the grid, i.e. based on contents.
    * 
@@ -196,6 +201,18 @@ trait Grid {
   override def equals(o: Any) = o match {
     case that: Grid => that.hashCode == hashCode
     case _ => false
+  }
+  
+  /**
+   * Prints a pretty representation of the Board.
+   */
+  override def toString  = {
+    val lines = 
+      for {
+        r <- Range(0, boardDimension.row)
+      } yield Range(0,boardDimension.column).map((c: Int) => posToChar(get(c,r))).mkString(" ")
+      
+    lines.mkString("\n")
   }
   
 }//end trait Grid

@@ -24,7 +24,11 @@ object GoGoDParser {
    */
   def recursiveListFiles(file: File = GO_GO_D_FILE): Array[File] = {
     val these = file.listFiles
-	these ++ these.filter(_.isDirectory).flatMap(recursiveListFiles)
+    
+    if(these == null)
+      Array(file)
+    else 
+	  these ++ these.filter(_.isDirectory).flatMap(recursiveListFiles)
   }//end def recursiveListFiles(f: File): Array[File]
   
   /**
@@ -45,8 +49,8 @@ object GoGoDParser {
    * @return the Games that were able to be parsed from .sgf files below file.
    * 
    */
-  def getGamesFromSGFFiles(fileName : String): Array[Game] =
-    getGamesFromSGFFiles(new File(fileName))
+  def getGamesFromSGFFile(fileName : String): Array[Game] =
+    getGamesFromSGFFile(new File(fileName))
     
   /**
    * Parses all of the .sgf files below file into Games.
@@ -56,7 +60,7 @@ object GoGoDParser {
    * @return the Games that were able to be parsed from .sgf files below file.
    * 
    */
-  def getGamesFromSGFFiles(file : File): Array[Game] = {
+  def getGamesFromSGFFile(file : File): Array[Game] = {
     getSGFFiles(file).par.map(SGFStringParser.parseLines(_)).flatten.toArray
   }//end def getGamesFromSGFFiles(files : Array[File] = getSGFFiles)
   
