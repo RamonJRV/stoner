@@ -7,6 +7,8 @@ import scala.collection.TraversableLike
 import scala.collection.GenTraversableOnce
 import java.util.Arrays
 
+import org.apache.spark.mllib.linalg.{Vector, DenseVector, SparseVector}
+
 /** A representation of stones on a Go board and the count of each players'
  *  captured stones.
  * 
@@ -178,10 +180,27 @@ trait Grid {
       yield get(c,r)).toArray
         
       
-  def flattenNumeric : Array[Float] =
+  def flattenNumeric : Array[Double] =
     (for(c <- Range(0,boardDimension.column) ; 
          r <- Range(0,boardDimension.row))
-      yield get(c,r).toFloat).toArray
+      yield get(c,r).toDouble).toArray
+      
+  def flattenSparkVector : Vector = {
+    
+    val a : Array[Double] = flattenNumeric
+    
+    //use a sparse matrix if less than 10% of the position are filled
+    if (a.count(_ != 0.0) < a.length / 10) {
+      val arrWithInd = a.zipWithIndex.filter(_._1 != 0.0)
+      new SparseVector(a.length, arrWithInd.map(_._2), arrWithInd.map(_._1))
+    }
+    else {
+      new DenseVector(flattenNumeric)
+    }
+      
+    
+  }//end def flattenSparkVector : Vector
+    
   /**
    * Provides a "deep" hashCode of the grid, i.e. based on contents.
    * 
