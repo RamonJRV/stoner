@@ -185,6 +185,11 @@ trait Grid {
          r <- Range(0,boardDimension.row))
       yield get(c,r).toDouble).toArray
       
+  /**
+   * Flattens the grid into a 1D spark Vector (a vector of features).
+   * 
+   * @return A 1D org.apache.spark Vector representation of the Grid.
+   */
   def flattenSparkVector : Vector = {
     
     val a : Array[Double] = flattenNumeric
