@@ -40,7 +40,8 @@ object GameToData {
    * @param the game to be converted into a sequence of LabelPoint values
    * 
    * @return A sequence of LabelPoint where the label is the winner of the game
-   * and the features are the board positions.
+   * and the features are the board positions created after a move by the 
+   * labeled player..
    * 
    * @see sideToLabel, Grid.flattenSparkVector
    */
