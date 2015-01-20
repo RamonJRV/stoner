@@ -38,3 +38,7 @@ Optional (ScalaIDE)
 1. Import the git repo you cloned in "Steps": File --> Import --> Git --> Projects from Git --> Existing local repository --> Add --> /the/directory/you/checked/stoner/out/to.
 2. Switch the compiler to 2.10.4: Project --> Properties --> Scala Installation : 2.10.4.
 2. If you get a bunch of "cross-compilation blah blah blah" errors follow the instructions [here](http://scala-ide.org/docs/current-user-doc/faq/index.html).
+
+Next Steps
+----------
+See the [Getting Started](https://github.com/RJRyV/stoner/wiki/Getting-Started) section of the [wiki](https://github.com/RJRyV/stoner/wiki) to learn about the stoner research environment.
