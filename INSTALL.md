@@ -1,6 +1,6 @@
 INSTALL
 =======
-Currently there is no "production" level install.  There is only a build of the source tree.  
+After following the below steps there should be a functional Go game research environment.
 
 Prerequisites
 -------------
@@ -31,7 +31,7 @@ Optionally for ScalaIDE (in sbt):
 
 Data Set
 --------
-Buy and unzip the [GoGoD](http://gogodonline.co.uk/) dataset .zip file in the stoner/src/main/resources directory.
+Buy and unzip the [GoGoD](http://gogodonline.co.uk/) dataset .zip file in the stoner/src/main/resources directory.  Not strictly necessary, but all of the examples in the [wiki](https://github.com/RJRyV/stoner/wiki) will assume that those files exist.
 
 Optional (ScalaIDE)
 -------------------
