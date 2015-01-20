@@ -51,7 +51,7 @@ object GameToData {
       case _ => false
     }
     
-    val gridAndMove = game.board.grids.dropRight(1)
+    val gridAndMove = game.board.grids.drop(1)
                                       .zip(game.board.transitions)
                                       .filter(x => isMove(x._2))
                                       
