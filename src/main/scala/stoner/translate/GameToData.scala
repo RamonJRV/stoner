@@ -41,7 +41,7 @@ object GameToData {
    * 
    * @return A sequence of LabelPoint where the label is the winner of the game
    * and the features are the board positions created after a move by the 
-   * labeled player..
+   * labeled player.
    * 
    * @see sideToLabel, Grid.flattenSparkVector
    */
@@ -61,10 +61,24 @@ object GameToData {
       case _ => 0.0
     }
     
-    
-    
     gridAndMove.map(x => LabeledPoint(transToLabel(x._2), x._1.flattenSparkVector))
   }//end def gameToLabeledPoints(game : Game) : Array[LabeledPoint]
+  
+  /**
+   * Converts a sequence of games into a Seq of org.apache.spark LabeledPoints 
+   * where the label is the winner of the game.  This sequence is useful for 
+   * passing to a SparkContext to parallelize into an RDD.
+   * 
+   * @param the games to be converted into a sequence of LabelPoint values
+   * 
+   * @return A sequence of LabelPoint where the label is the winner of each game
+   * and the features are the board positions created after a move by the 
+   * labeled player.
+   * 
+   * @see sideToLabel, Grid.flattenSparkVector
+   */
+  def gamesToWinnerLabeledPoints(games : IndexedSeq[Game]) = 
+    games.map(gameToWinnerLabeledPoints).flatten
   
   /**
    * Converts a game into a Seq of (Move, org.apache.spark.mllib.linalg.Vector).
