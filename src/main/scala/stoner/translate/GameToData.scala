@@ -77,7 +77,7 @@ object GameToData {
    * 
    * @see sideToLabel, Grid.flattenSparkVector
    */
-  def gamesToWinnerLabeledPoints(games : IndexedSeq[Game]) = 
+  def gameToWinnerLabeledPoints(games : IndexedSeq[Game]) : IndexedSeq[LabeledPoint] = 
     games.map(gameToWinnerLabeledPoints).flatten
   
   /**
