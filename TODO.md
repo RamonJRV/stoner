@@ -4,8 +4,7 @@ Everything and then some!
 
 Short Term 
 ----------
-1. Write a converter that turns a sequence of positions into "features" for ML.
-2. Implement an SVN to predict winner given a board position.
+1. Implement an SVN to predict winner given a board position.
 
 Medium Term
 -----------
