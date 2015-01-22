@@ -9,7 +9,6 @@ Short Term
 Medium Term
 -----------
 1. Connect scala to cuDNN to implement a NN predictor.
-2. Distribute ML using Spark.
 
 Long Term
 ---------
