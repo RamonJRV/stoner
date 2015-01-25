@@ -22,3 +22,7 @@ libraryDependencies += "org.apache.spark" % "spark-mllib_2.10" % "1.2.0" % "prov
 //logLevel := Level.Debug
 
 scalacOptions += "-deprecation"
+
+artifactName := { (sv: ScalaVersion, module: ModuleID, artifact: Artifact) =>
+  artifact.name + "." + artifact.extension
+}
