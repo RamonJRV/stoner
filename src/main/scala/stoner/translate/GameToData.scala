@@ -3,7 +3,7 @@ package stoner.translate
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.{Vector, DenseVector,SparseVector}
 
-import stoner.board.{Game,Side, BLACK, EMPTY, Grid, StateTransition, Move,Position}
+import stoner.board.{Game,Side, BLACK, EMPTY, Grid, StateTransition, Move,Position, Rotation}
 
 /**
  * Contains useful functions for translating game data to machine learning 
@@ -51,10 +51,11 @@ object GameToData {
       case Move(_,_) => true
       case _ => false
     }
-    
-    val gridAndMove = game.board.grids.drop(1)
-                                      .zip(game.board.transitions)
-                                      .filter(x => isMove(x._2))
+        
+    val gridAndMove = 
+      Rotation.applyAllRotations(game).flatMap((g : Game) => g.board.grids.drop(1)
+                                                                          .zip(game.board.transitions)
+                                                                          .filter(x => isMove(x._2)))
                                       
     def transToLabel(t : StateTransition) = t match {
       case Move(p,s) => if(s == game.winner) 1.0 else 0.0
@@ -78,7 +79,7 @@ object GameToData {
    * @see sideToLabel, Grid.flattenSparkVector
    */
   def gameToWinnerLabeledPoints(games : IndexedSeq[Game]) : IndexedSeq[LabeledPoint] = 
-    games.map(gameToWinnerLabeledPoints).flatten
+    games.par.map(gameToWinnerLabeledPoints).flatten.toIndexedSeq
   
   /**
    * Converts a game into a Seq of (Move, org.apache.spark.mllib.linalg.Vector).
