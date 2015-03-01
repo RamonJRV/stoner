@@ -194,8 +194,14 @@ trait Grid {
     
     val a : Array[Double] = flattenNumeric
     
-    //use a sparse matrix if less than 10% of the position are filled
-    if (a.count(_ != 0.0) < a.length / 10) {
+    val L = a.length
+    val I = 32
+    val D = 64
+    val N = a.count(_ != 0.0)
+    
+    //For a description of the below equation please see
+    //https://github.com/RJRyV/stoner/wiki/Compact-Memory-Storage-of-Go-Positions-In-Scala-2:-Vector-Day
+    if (N < (L*D - I) / (I+D)) {
       val arrWithInd = a.zipWithIndex.filter(_._1 != 0.0)
       new SparseVector(a.length, arrWithInd.map(_._2), arrWithInd.map(_._1))
     }
