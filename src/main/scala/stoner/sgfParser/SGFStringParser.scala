@@ -6,13 +6,22 @@ import scala.collection.mutable.ArrayBuffer
 import scala.collection.immutable.Traversable
 import scala.collection.Map
 
-import scala.io.Source
+import scala.io.{Source,Codec}
 import java.io.File
+
+import java.nio.charset.CodingErrorAction
 
 object SGFStringParser {
   
-  val sideMap = Map(('B',BLACK), ('W',WHITE))
+  //some files are utf8 and some are iso8859
+  //this code lets the Source.fromFile work with either.
+  implicit val codec = Codec("UTF-8")
+  codec.onMalformedInput(CodingErrorAction.REPLACE)
+  codec.onUnmappableCharacter(CodingErrorAction.REPLACE)
+
   
+  val sideMap = Map(('B',BLACK), ('W',WHITE))
+    
   /**
    * Parses the lines of a file into a Game.
    * 
