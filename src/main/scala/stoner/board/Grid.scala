@@ -195,9 +195,9 @@ trait Grid {
     val a : Array[Double] = flattenNumeric
     
     val L = a.length
-    val I = 32
-    val D = 64
-    val N = a.count(_ != 0.0)
+    val I = 32 // bits in an int
+    val D = 64 // bits in a double
+    val N = a.count(_ != 0.0) // number of items
     
     //For a description of the below equation please see
     //https://github.com/RJRyV/stoner/wiki/Compact-Memory-Storage-of-Go-Positions-In-Scala-2:-Vector-Day
