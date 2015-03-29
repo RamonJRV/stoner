@@ -4,7 +4,7 @@ import scala.reflect.ClassTag
 
 import scala.annotation.tailrec
 
-import scala.collection.immutable.HashSet
+import scala.collection.immutable.{HashSet,Set}
 import scala.collection.LinearSeq
 import java.util.Arrays
 
@@ -247,6 +247,13 @@ trait Grid {
   override def equals(o: Any) = o match {
     case that: Grid => that.hashCode == hashCode
     case _ => false
+  }
+  
+  def allPositions : Set[Position] = {
+    HashSet() ++
+    (for(c <- Range(0,boardDimension.column);
+         r <- Range(0,boardDimension.row))
+      yield Position(c,r))
   }
   
   /**

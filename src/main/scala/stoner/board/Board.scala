@@ -10,6 +10,9 @@ import scala.collection.immutable.HashSet
 import scala.Range
 
 object Board {
+  
+  final val STARTING_SIDE = BLACK
+  
   /**
    * "And you will know my name is the Lord when I lay my vengeance upon you!"
    * - Pulp Fiction
@@ -83,7 +86,8 @@ object Board {
  * "interpreting" Moves into a Grid transition (delta).   
  */
 class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransition](),
-            val boardDimension : BoardDimension = BoardDimension.STANDARD_BOARD_DIM) {
+            val boardDimension : BoardDimension = BoardDimension.STANDARD_BOARD_DIM,
+            val currentTurn : Side = BLACK) {
     
   /**A sequence of intermediate grid states from the initial empty board to
    * the most current state: grids.last.
@@ -120,18 +124,6 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
   def isEmpty(pos : Position) : Boolean = currentGrid.isEmpty(pos)
   
   /**
-   * Determines if the given move is a legl move according to the rules of Go.
-   * 
-   * @param move The move the test legality of
-   * 
-   * True if the given move is legal, false otherwise.
-   */
-  def isLegalMove(move : Move) : Boolean =
-    currentGrid.isEmpty(move.pos) &&
-    !isKo(move) && 
-    !Board.isSuicide(move, currentGrid)
-     
-  /**
    * Determines whether or not the given move is a ko move of the game.
    * 
    * @param move The move to decide if it is a ko.
@@ -143,6 +135,30 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
    */
   def isKo(move : Move) : Boolean = 
     grids.exists(_ == Board.setStoneWithKill(move, currentGrid))
+    
+  
+  def isCurrentTurn(side : Side) : Boolean = 
+    currentTurn == side
+  
+  /**
+   * Determines if the given move is a legl move according to the rules of Go.
+   * 
+   * @param move The move the test legality of
+   * 
+   * True if the given move is legal, false otherwise.
+   */
+  def isLegalMove(move : Move) : Boolean =
+    isCurrentTurn(move.side) &&
+    isEmpty(move.pos) &&
+    !isKo(move) && 
+    !Board.isSuicide(move, currentGrid)
+     
+    
+  def legalMoves() : Set[Move] = 
+    currentGrid.allPositions.map(Move(_, currentTurn.opposite))
+                            .filter(isLegalMove)
+  
+                                            
   
   /**
    * Applies the specified PosFlip to the Grid irregardless of whether or not
@@ -156,7 +172,7 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
    * 
    * @see +(move: Move) 
    */
-  def +(pf : PosFlip) : Board = new Board(transitions :+ pf, boardDimension)
+  def +(pf : PosFlip) : Board = new Board(transitions :+ pf, boardDimension, currentTurn)
   
   /**
    * Applies the specified Move to the Grid if the move is legal, e.g. it does
@@ -182,7 +198,9 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
    * @todo FIXME - unit testing
    */
   def play(move : Move) : Option[Board] = 
-    if(isLegalMove(move)) Some(new Board(transitions :+ move, boardDimension))
+    if(isLegalMove(move)) Some(new Board(transitions :+ move,
+                                         boardDimension,
+                                         currentTurn.opposite))
     else None
   
   /**
@@ -198,7 +216,7 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
    * @todo FIXME - unit testing 
    */
   def setStones(posManipulationSeq: LinearSeq[PosFlip]) : Board = 
-     new Board(transitions ++ posManipulationSeq, boardDimension)
+     new Board(transitions ++ posManipulationSeq, boardDimension, currentTurn)
   
   /**
    * Affects the given PosFlip onto the internal grid.
