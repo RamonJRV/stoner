@@ -96,6 +96,8 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
                                  case m: Move => Board.setStoneWithKill(m,g)})
   }//end val grids =
   
+  val currentGrid = grids.last
+  
   /**
    * Applies the specified PosFlip to the Grid irregardless of whether or not
    * the Position was previously occupied.  DOES NOT affect any killing of 
@@ -119,8 +121,8 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
    * 
    * True if the given move would result in suicide, false otherwise.
    */
-  def isSuicide(move : Move) = 
-    Board.setStoneWithKill(move, grids.last).liberties(move.pos) == 0
+  def isSuicide(move : Move) : Boolean = 
+    Board.setStoneWithKill(move, currentGrid).liberties(move.pos) == 0
   
   /**
    * Determines whether or not the given Position is EMPTY.
@@ -129,7 +131,7 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
    * 
    * @return True if the given Position is empty, false otherwise.
    */
-  def isEmpty(pos : Position) = Board.isEmpty(pos, grids.last)
+  def isEmpty(pos : Position) : Boolean = Board.isEmpty(pos, currentGrid)
   
   /**
    * Determines if the given move is a legl move according to the rules of Go.
@@ -138,10 +140,10 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
    * 
    * True if the given move is legal, false otherwise.
    */
-  def isLegalMove(move : Move) =
-    (Board.isEmpty(move.pos, grids.last) &&
+  def isLegalMove(move : Move) : Boolean =
+    (Board.isEmpty(move.pos, currentGrid) &&
      !isKo(move) && 
-     !Board.isSuicide(move, grids.last))
+     !Board.isSuicide(move, currentGrid))
      
   /**
    * Determines whether or not the given move is a ko move of the game.
@@ -153,8 +155,8 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
    *  
    * @todo FIXME - unit testing
    */
-  def isKo(move : Move) = 
-    grids.exists(_ == Board.setStoneWithKill(move, grids.last))
+  def isKo(move : Move) : Boolean = 
+    grids.exists(_ == Board.setStoneWithKill(move, currentGrid))
   
   
   /**
@@ -204,7 +206,7 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
   /**
    * Prints a pretty representation of the Board.
    */
-  override def toString  = grids.last.toString
+  override def toString  = currentGrid.toString
 }//end trait Board
 
 //31337
