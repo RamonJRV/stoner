@@ -302,8 +302,8 @@ class CompactGridSuite extends FunSuite {
   }//end test("Liberties for a single stone with opponent")
   
   test("Liberties for two stones in various Positions") {
-    var g = emptyGrid.set(Array(PosFlip(Position(0,0),BLACK),
-                                PosFlip(Position(0,1),BLACK)))
+    var g = emptyGrid.set(List(PosFlip(Position(0,0),BLACK),
+                               PosFlip(Position(0,1),BLACK)))
                                 
     //println(b.toString)
     //println(b.liberties(Position(0,0)).toString)
@@ -311,8 +311,8 @@ class CompactGridSuite extends FunSuite {
     assert(g.liberties(Position(0,1)).contains(Position(1,1)))
     assert(g.liberties(Position(0,1)).contains(Position(0,2)))
     
-    g = emptyGrid.set(Array(PosFlip(Position(0,0),BLACK),
-                            PosFlip(Position(0,1),WHITE)))
+    g = emptyGrid.set(List(PosFlip(Position(0,0),BLACK),
+                           PosFlip(Position(0,1),WHITE)))
                                             
     assert(g.liberties(Position(0,0)).contains(Position(1,0)))
     assert(g.liberties(Position(0,1)).contains(Position(1,1)))
@@ -320,9 +320,9 @@ class CompactGridSuite extends FunSuite {
   }//end test("Liberties for two stones in various Positions")
   
   test("Liberties for a three stone bent group") {
-    var g = emptyGrid.set(Array(PosFlip(Position(0,0),BLACK),
-                                PosFlip(Position(0,1),BLACK),
-                                PosFlip(Position(1,0),BLACK)))
+    var g = emptyGrid.set(List(PosFlip(Position(0,0),BLACK),
+                               PosFlip(Position(0,1),BLACK),
+                               PosFlip(Position(1,0),BLACK)))
                                                 
     assert(g.liberties(Position(0,0)).isEmpty)
     
@@ -335,23 +335,23 @@ class CompactGridSuite extends FunSuite {
   }//end test("Liberties for a three stone bent group")
   
   test("groupLiberties on one stone") {
-    var g = emptyGrid.set(Array(PosFlip(Position(0,0),BLACK)))
+    var g = emptyGrid.set(List(PosFlip(Position(0,0),BLACK)))
     
     assert(g.groupLiberties(Position(0,0)).contains(Position(1,0)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(0,1)))
     
-    g = emptyGrid.set(Array(PosFlip(Position(1,0),BLACK)))
+    g = emptyGrid.set(List(PosFlip(Position(1,0),BLACK)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(0,0)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(2,0)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(1,1)))
     
-    g = emptyGrid.set(Array(PosFlip(Position(1,1),BLACK)))
+    g = emptyGrid.set(List(PosFlip(Position(1,1),BLACK)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(1,0)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(0,1)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(1,2)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(2,1)))
     
-    g = emptyGrid.set(Array(PosFlip(Position(1,1),WHITE)))
+    g = emptyGrid.set(List(PosFlip(Position(1,1),WHITE)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(1,0)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(0,1)))
     assert(g.groupLiberties(Position(0,0)).contains(Position(1,2)))
@@ -360,8 +360,8 @@ class CompactGridSuite extends FunSuite {
   }//end test("groupLiberties on one stone")
 
   test("group liberties on two stones") {
-    var g = emptyGrid.set(Array(PosFlip(Position(0,0),BLACK),
-                                PosFlip(Position(0,1),BLACK)))
+    var g = emptyGrid.set(List(PosFlip(Position(0,0),BLACK),
+                               PosFlip(Position(0,1),BLACK)))
                                                 
     assert(g.groupLiberties(Position(0,0)).contains(Position(0,2)) &&
            g.groupLiberties(Position(0,1)).contains(Position(0,2)))
@@ -374,9 +374,9 @@ class CompactGridSuite extends FunSuite {
   }//end test("group liberties on two stones")
   
   test("group liberties on two stones with oponent") {
-    val g = emptyGrid.set(Array(PosFlip(Position(0,0),BLACK),
-                                PosFlip(Position(0,1),BLACK),
-                                PosFlip(Position(0,2),WHITE)))
+    val g = emptyGrid.set(List(PosFlip(Position(0,0),BLACK),
+                               PosFlip(Position(0,1),BLACK),
+                               PosFlip(Position(0,2),WHITE)))
                                                 
     assert(!g.groupLiberties(Position(0,0)).contains(Position(0,2)) &&
            !g.groupLiberties(Position(0,1)).contains(Position(0,2)))
@@ -392,20 +392,20 @@ class CompactGridSuite extends FunSuite {
   }//end test("group liberties on two stones")
   
   test("isAlive one stone 0 - 2 opponents") {
-    var g = emptyGrid.set(Array(PosFlip(Position(0,0),BLACK)))
+    var g = emptyGrid.set(List(PosFlip(Position(0,0),BLACK)))
     
     assert(g.isAlive(Position(0,0)))
     
-    g = g.set(Array(PosFlip(Position(0,1),WHITE)))
+    g = g.set(List(PosFlip(Position(0,1),WHITE)))
     assert(g.isAlive(Position(0,0)))
     
-    g = g.set(Array(PosFlip(Position(1,0),WHITE)))
+    g = g.set(List(PosFlip(Position(1,0),WHITE)))
     assert(!g.isAlive(Position(0,0)))
   }//end test("isAlive one stone 0 - 2 opponents")
   
   test("isAlive two stones 0 - 3 opponent") {
-    var g = emptyGrid.set(Array(PosFlip(Position(0,0),BLACK),
-                                PosFlip(Position(0,1),BLACK)))
+    var g = emptyGrid.set(List(PosFlip(Position(0,0),BLACK),
+                               PosFlip(Position(0,1),BLACK)))
                                                         
     assert(g.isAlive(Position(0,0)) && g.isAlive(Position(0,1)))
     
@@ -427,26 +427,26 @@ class CompactGridSuite extends FunSuite {
     //WBBBW
     // WWW
     
-    var g = emptyGrid.set(Array(PosFlip(Position(0,1), WHITE),
-    		                    PosFlip(Position(0,2), WHITE),
-    		                    PosFlip(Position(0,3), WHITE),
-    		                    PosFlip(Position(1,0), WHITE),
-    		                    PosFlip(Position(1,1), BLACK),
-     		                          PosFlip(Position(1,2), BLACK),
-    		                          PosFlip(Position(1,3), BLACK),
-    		                          PosFlip(Position(1,4), WHITE),
-    		                          PosFlip(Position(2,0), WHITE),
-    		                          PosFlip(Position(2,1), BLACK),
-    		                          PosFlip(Position(2,3), BLACK),
-    		                          PosFlip(Position(2,4), WHITE),
-    		                          PosFlip(Position(3,0), WHITE),
-    		                          PosFlip(Position(3,1), BLACK),
-    		                          PosFlip(Position(3,2), BLACK),
-    		                          PosFlip(Position(3,3), BLACK),
-    		                          PosFlip(Position(3,4), WHITE),
-    		                          PosFlip(Position(4,1), WHITE),
-    		                          PosFlip(Position(4,2), WHITE),
-    		                          PosFlip(Position(4,3), WHITE)))
+    var g = emptyGrid.set(List(PosFlip(Position(0,1), WHITE),
+    		                       PosFlip(Position(0,2), WHITE),
+    		                       PosFlip(Position(0,3), WHITE),
+    		                       PosFlip(Position(1,0), WHITE),
+    		                       PosFlip(Position(1,1), BLACK),
+     		                       PosFlip(Position(1,2), BLACK),
+    		                       PosFlip(Position(1,3), BLACK),
+    		                       PosFlip(Position(1,4), WHITE),
+    		                       PosFlip(Position(2,0), WHITE),
+    		                       PosFlip(Position(2,1), BLACK),
+    		                       PosFlip(Position(2,3), BLACK),
+    		                       PosFlip(Position(2,4), WHITE),
+    		                       PosFlip(Position(3,0), WHITE),
+    		                       PosFlip(Position(3,1), BLACK),
+    		                       PosFlip(Position(3,2), BLACK),
+    		                       PosFlip(Position(3,3), BLACK),
+    		                       PosFlip(Position(3,4), WHITE),
+    		                       PosFlip(Position(4,1), WHITE),
+    		                       PosFlip(Position(4,2), WHITE),
+    		                       PosFlip(Position(4,3), WHITE)))
 
     g = g.set(PosFlip(Position(2,2),WHITE))
     assert(!g.isAlive(Position(1,1)))

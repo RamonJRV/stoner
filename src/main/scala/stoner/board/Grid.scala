@@ -3,8 +3,7 @@ package stoner.board
 import scala.annotation.tailrec
 
 import scala.collection.immutable.HashSet
-import scala.collection.TraversableLike
-import scala.collection.GenTraversableOnce
+import scala.collection.LinearSeq
 import java.util.Arrays
 
 import org.apache.spark.mllib.linalg.{Vector, DenseVector, SparseVector}
@@ -65,7 +64,7 @@ trait Grid {
   
   def set(pf: PosFlip) : Grid = pf match {case PosFlip(p,s) => set(p,s)}
   
-  def set(pfs : GenTraversableOnce[PosFlip]) : Grid = (this /: pfs)(_ set _)
+  def set(pfs : LinearSeq[PosFlip]) : Grid = (this /: pfs)(_ set _)
   
   
   def setCapturedBlack(captured: Int) : Grid
@@ -86,9 +85,9 @@ trait Grid {
   
   protected def iterateAllPossibleNeighbors(pos: Position) : Set[Position] = 
     pos match { case Position(col,row) => Set[Position](Position(col-1, row),
-	                                                    Position(col+1, row),
-		     		                                    Position(col, row-1),
-				                                        Position(col, row+1))
+	                                                      Position(col+1, row),
+		     		                                            Position(col, row-1),
+				                                                Position(col, row+1))
 	}
   
   /**
@@ -128,13 +127,13 @@ trait Grid {
                    acc: Set[Position]) : Set[Position]= {
       if(posToSearch.isEmpty) acc
       else {
-    	val h = posToSearch.head
-    	val t = posToSearch.tail
+    	  val h = posToSearch.head
+    		val t = posToSearch.tail
 
-    	//state farm
-    	def goodNeighbor(p: Position) = get(p) == side && !acc.contains(p) 
+    		//state farm
+    		def goodNeighbor(p: Position) = get(p) == side && !acc.contains(p) 
 
-    	idGroupRec(getNeighbors(h).filter(goodNeighbor) ++ t,acc + h)
+    		idGroupRec(getNeighbors(h).filter(goodNeighbor) ++ t,acc + h)
       }//end else to if(posToSearch.isEmpty)
     }//end def idGroupRec(pos: Position, side: Side, acc: Set[Position])
 
