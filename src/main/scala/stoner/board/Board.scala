@@ -2,7 +2,6 @@ package stoner.board
 
 import scala.annotation.tailrec
 
-import scala.collection.GenTraversableOnce
 import scala.collection.LinearSeq
 import scala.collection.immutable.{Vector}
 
@@ -187,7 +186,7 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
    *  
    * @todo FIXME - unit testing 
    */
-  def setStones(posManipulationSeq: GenTraversableOnce[PosFlip]) : Board = 
+  def setStones(posManipulationSeq: LinearSeq[PosFlip]) : Board = 
      new Board(transitions ++ posManipulationSeq, boardDimension)
   
   /**
@@ -199,7 +198,7 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
    * 
    * @todo FIXME - unit testing
    */
-  def setStone(pf : PosFlip) = setStones(Array(pf))
+  def setStone(pf : PosFlip) = setStones(LinearSeq(pf))
  
   
   /**
