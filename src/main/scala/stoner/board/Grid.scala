@@ -62,6 +62,8 @@ trait Grid {
   
   def set(pfs : LinearSeq[PosFlip]) : Grid = (this /: pfs)(_ set _)
   
+  def isEmpty(pos : Position) : Boolean = get(pos) == EMPTY 
+  
   /**
    * Determines whether or not the given Position is legally within the 
    * dimensions of the grid.
@@ -173,7 +175,7 @@ trait Grid {
       yield get(c,r))
         
       
-  private trait FromSide[A] {
+  private sealed trait FromSide[A] {
     def apply(side: Side): A
   }
   
