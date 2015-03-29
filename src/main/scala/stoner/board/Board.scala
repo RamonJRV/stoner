@@ -3,6 +3,9 @@ package stoner.board
 import scala.annotation.tailrec
 
 import scala.collection.GenTraversableOnce
+import scala.collection.LinearSeq
+import scala.collection.immutable.{Vector}
+
 import scala.collection.immutable.Set
 import scala.collection.immutable.HashSet
 import scala.Range
@@ -80,7 +83,7 @@ object Board {
  * sequence of Grids that represent a game.  Boards are responsible for 
  * "interpreting" Moves into a Grid transition (delta).   
  */
-class Board(val transitions : IndexedSeq[StateTransition] = Array[StateTransition](),
+class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransition](),
             val boardDimension : BoardDimension = BoardDimension.STANDARD_BOARD_DIM) {
     
   /**A sequence of intermediate grid states from the initial empty board to

@@ -1,5 +1,7 @@
 package stoner.board
 
+import scala.collection.immutable.List
+
 import org.scalatest.FunSuite
 
 import org.junit.runner.RunWith
@@ -23,7 +25,7 @@ class StandardBoardSuite extends FunSuite {
   }//end test("Empty Board is still functional")
   
   test("Board constructor properly places single StateTransition") {
-    var b = new Board(Array[StateTransition](PosFlip(origin, BLACK)))
+    var b = new Board(List[StateTransition](PosFlip(origin, BLACK)))
         
     assert(b.grids.last.get(origin) == BLACK)
     
@@ -35,7 +37,7 @@ class StandardBoardSuite extends FunSuite {
       assert(!emptyBoard.isKo(Move(Position(c,r), BLACK)))
     }
     
-    b = new Board(Array[StateTransition](Move(origin, BLACK)))
+    b = new Board(List[StateTransition](Move(origin, BLACK)))
         
     assert(b.grids.last.get(origin) == BLACK)
     
@@ -47,7 +49,7 @@ class StandardBoardSuite extends FunSuite {
       assert(!emptyBoard.isKo(Move(Position(c,r), BLACK)))
     }
     
-    b = new Board(Array[StateTransition](PosFlip(Position(1,1), BLACK)))
+    b = new Board(List[StateTransition](PosFlip(Position(1,1), BLACK)))
         
     assert(b.grids.last.get(Position(1,1)) == BLACK)
     
@@ -59,7 +61,7 @@ class StandardBoardSuite extends FunSuite {
       assert(!emptyBoard.isKo(Move(Position(c,r), BLACK)))
     }
     
-    b = new Board(Array[StateTransition](Move(Position(1,1), BLACK)))
+    b = new Board(List[StateTransition](Move(Position(1,1), BLACK)))
         
     assert(b.grids.last.get(Position(1,1)) == BLACK)
     
@@ -71,7 +73,7 @@ class StandardBoardSuite extends FunSuite {
       assert(!emptyBoard.isKo(Move(Position(c,r), BLACK)))
     }
     
-    b = new Board(Array[StateTransition](PosFlip(origin, WHITE)))
+    b = new Board(List[StateTransition](PosFlip(origin, WHITE)))
         
     assert(b.grids.last.get(origin) == WHITE)
     
@@ -83,8 +85,8 @@ class StandardBoardSuite extends FunSuite {
   
   
   test("Board constructor properly places multiple StateTransitions") {
-    var b = new Board(Array[StateTransition](Move(origin, BLACK),
-                                             Move(Position(0,1),WHITE)))
+    var b = new Board(List[StateTransition](Move(origin, BLACK),
+                                            Move(Position(0,1),WHITE)))
     assert(b.grids(1).get(origin) == BLACK)
     assert(b.grids(1).get(Position(0,1)) == EMPTY)
     

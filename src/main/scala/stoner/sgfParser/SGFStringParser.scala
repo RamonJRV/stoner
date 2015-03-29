@@ -79,7 +79,7 @@ object SGFStringParser {
         }//end else if(line.startsWith(";"))
       }//end for(line <- lines.tail)
       
-      Some(Game(new Board(st_o), winner_o))
+      Some(Game(new Board(st_o.toList), winner_o))
     }//end else to if (!lines.head.startsWith("(;SZ[19]"))
   }//end def parseLines(lines : List[String])
 

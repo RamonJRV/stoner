@@ -1,5 +1,7 @@
 package stoner.translate
 
+import scala.collection.LinearSeq
+
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.{Vector, DenseVector,SparseVector}
 
@@ -93,7 +95,7 @@ object GameToData {
    * 
    * @see Grid.flattenSparkVector
    */
-  def gameToMoveLabeledPoints(game : Game) : IndexedSeq[(Move,Vector)] = {
+  def gameToMoveLabeledPoints(game : Game) : LinearSeq[(Move,Vector)] = {
     
     def isMove(t : StateTransition) = t match {
       case Move(_,_) => true
