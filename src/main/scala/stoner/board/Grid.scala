@@ -1,28 +1,20 @@
 package stoner.board
 
+import scala.reflect.ClassTag
+
 import scala.annotation.tailrec
 
 import scala.collection.immutable.HashSet
 import scala.collection.LinearSeq
 import java.util.Arrays
 
-import org.apache.spark.mllib.linalg.{Vector, DenseVector, SparseVector}
+import org.apache.spark.mllib.linalg.{DenseVector, SparseVector}
 
 /** A representation of stones on a Go board and the count of each players'
  *  captured stones.
  * 
  */
 trait Grid {
-  
-  type Side = Int
-   
-  final val WHITE : Side = -1
-  final val BLACK : Side = 1
-  final val EMPTY : Side = 0
-  
-  type Dimension = Int
-  type Column = Dimension
-  type Row = Dimension
   
   val boardDimension : BoardDimension
   
@@ -40,17 +32,6 @@ trait Grid {
   def get(pos: Position) : Side
   
   /**
-   * Gets the Side stored in the grid for the given column and row.
-   * 
-   * @param column The column to get the side for
-   * @param row The row to get the side for
-   * @return The side for the given column and row combination.
-   */
-  def get(column : Dimension, row : Dimension) : Side = get(Position(column, row))
-  
-  def apply(column : Dimension, row : Dimension) = get(column,row)
-  
-  /**
    * Sets the side at the given position and returns a new CompactGrid 
    * representing the updated state.
    * 
@@ -61,14 +42,25 @@ trait Grid {
    *  pos
    */
   def set(pos : Position, side : Side) : Grid
+
+  def setCapturedBlack(captured: Int) : Grid
+  def setCapturedWhite(captured: Int) : Grid
+
+  
+  /**
+   * Gets the Side stored in the grid for the given column and row.
+   * 
+   * @param column The column to get the side for
+   * @param row The row to get the side for
+   * @return The side for the given column and row combination.
+   */
+  def get(column : Dimension, row : Dimension) : Side = get(Position(column, row))
+  
+  def apply(column : Dimension, row : Dimension) : Side = get(column,row)
   
   def set(pf: PosFlip) : Grid = pf match {case PosFlip(p,s) => set(p,s)}
   
   def set(pfs : LinearSeq[PosFlip]) : Grid = (this /: pfs)(_ set _)
-  
-  
-  def setCapturedBlack(captured: Int) : Grid
-  def setCapturedWhite(captured: Int) : Grid
   
   /**
    * Determines whether or not the given Position is legally within the 
@@ -172,26 +164,49 @@ trait Grid {
 
   /**
    * Flattens the internal representation of the grid into a 1-D array of Sides.
+   * The flattening happens in column major order, e.g. the first column is 
+   * prepended to the second which is prepended to the third ...
    */
-  def flatten : Array[Side] = 
-    (for(c <- Range(0,boardDimension.column) ; 
+  def flatten : IndexedSeq[Side] = 
+    (for(c <- Range(0,boardDimension.column);
          r <- Range(0,boardDimension.row))
-      yield get(c,r)).toArray
+      yield get(c,r))
         
       
-  def flattenNumeric : Array[Double] =
-    (for(c <- Range(0,boardDimension.column) ; 
-         r <- Range(0,boardDimension.row))
-      yield get(c,r).toDouble).toArray
+  private trait FromSide[A] {
+    def apply(side: Side): A
+  }
+  
+  private object FromSide {
+    implicit object intFromSide extends FromSide[Int] {
+      def apply(side : Side) = side.toInt
+    }
+    
+    implicit object doubleFromSide extends FromSide[Double] {
+      def apply(side : Side) = side.toDouble
+    }
+    
+    implicit object charFromSide extends FromSide[Char] {
+      def apply(side : Side) = side.toChar
+    }
+  }
+  
+  /**
+   * Flattens the internal represenation of the grid into a 1-D array of numeric
+   * values. The flattening happens in column major order, e.g. the first column 
+   * is prepended to the second which is prepended to the third ...
+   */
+  def flattenNumeric[T : FromSide : Manifest] : IndexedSeq[T] =
+    flatten.map(implicitly[FromSide[T]].apply)
       
   /**
    * Flattens the grid into a 1D spark Vector (a vector of features).
    * 
    * @return A 1D org.apache.spark Vector representation of the Grid.
    */
-  def flattenSparkVector : Vector = {
+  def flattenSparkVector : org.apache.spark.mllib.linalg.Vector = {
     
-    val a : Array[Double] = flattenNumeric
+    val a  = flattenNumeric[Double]
     
     val L = a.length
     val I = 32 // bits in an int
@@ -202,10 +217,10 @@ trait Grid {
     //https://github.com/RJRyV/stoner/wiki/Compact-Memory-Storage-of-Go-Positions-In-Scala-2:-Vector-Day
     if (N < (L*D - I) / (I+D)) {
       val arrWithInd = a.zipWithIndex.filter(_._1 != 0.0)
-      new SparseVector(a.length, arrWithInd.map(_._2), arrWithInd.map(_._1))
+      new SparseVector(a.length, arrWithInd.map(_._2).toArray, arrWithInd.map(_._1).toArray)
     }
     else {
-      new DenseVector(flattenNumeric)
+      new DenseVector(flattenNumeric[Double].toArray)
     }
       
     
@@ -218,7 +233,7 @@ trait Grid {
    * collision probability of two disimilar grids is 1/2^32.
    */
   @Override
-  override def hashCode = Arrays.hashCode(flatten)
+  override def hashCode : Int = Arrays.hashCode(flattenNumeric[Int].toArray)
   
   /**
    * Provides a "deep" equality check based on the grid.
@@ -239,7 +254,7 @@ trait Grid {
     val lines = 
       for {
         r <- Range(0, boardDimension.row)
-      } yield Range(0,boardDimension.column).map((c: Int) => posToChar(get(c,r))).mkString(" ")
+      } yield Range(0,boardDimension.column).map(get(_,r).toChar).mkString(" ")
       
     lines.mkString("\n")
   }

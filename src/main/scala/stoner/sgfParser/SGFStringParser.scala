@@ -54,7 +54,7 @@ object SGFStringParser {
     if (!lines.head.startsWith("(;SZ[19]")) None
     else {
       val st_o = new ArrayBuffer[StateTransition]
-      var winner_o = EMPTY
+      var winner_o : Side = EMPTY
       
       for(line <- lines.drop(1)) {
         

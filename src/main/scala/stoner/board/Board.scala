@@ -28,7 +28,7 @@ object Board {
        val hypoGrd = grid.set(p,s)
        
        grid.getNeighbors(p)
-           .filter((p) => hypoGrd.get(p) == otherSide(s))
+           .filter((p) => hypoGrd.get(p) == s.opposite)
            .filter((p) => !hypoGrd.isAlive(p))
      }
    }//end protected[board] def killAMotherfucker(m: Move) : Set[Position] 

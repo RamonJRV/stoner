@@ -26,7 +26,7 @@ object GameToData {
     else 0.0
   
   def gameToArrays(game : Game) : (Array[Array[Double]], Array[Double]) = {
-    val gridArrays = game.board.grids.tail.map(_.flattenNumeric).toArray
+    val gridArrays = game.board.grids.tail.map(_.flattenNumeric[Double].toArray).toArray
     
     val label = sideToLabel(game.winner)
       
