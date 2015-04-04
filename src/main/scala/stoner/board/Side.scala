@@ -30,4 +30,6 @@ case object EMPTY extends Side {
   
   override val toChar = '*'
   override val toInt = 0
-}
+}//end case object EMPTY extends Side
+
+//31337

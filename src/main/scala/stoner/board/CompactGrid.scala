@@ -74,6 +74,8 @@ case class CompactGrid(val boardDimension : BoardDimension = BoardDimension.STAN
                        val capturedWhite : Int = 0,
                        val gridArray : CompactGrid.GridRepr = CompactGrid.generateGridArray(BoardDimension.STANDARD_BOARD_DIM)) extends Grid {
   
+  val maxIndex = boardDimension.column * boardDimension.row
+  
   /**Gets the 1-D point index from a 2-D Position.
    * 
    * @param pos : The Position to get the 1-D for
