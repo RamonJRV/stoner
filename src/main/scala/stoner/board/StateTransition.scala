@@ -1,5 +1,8 @@
 package stoner.board
 
+/**
+ * A StateTransition is a change of the pieces on a Board.  
+ */
 sealed trait StateTransition {
   val pos: Position
   val side: Side
@@ -16,12 +19,8 @@ sealed trait StateTransition {
  * @return A Grid representing the state of the grid after the specified flip
  * of Position pos.
  */
-case class PosFlip(val pos : Position, val side : Side) extends StateTransition {
-  
-  //def +(grid : Grid) = grid.set(pos, EMPTY).set(pos, side)
-  
-}//end case class PosFlip(val pos : Position, val side : Side)
+case class PosFlip(pos : Position, side : Side) extends StateTransition
 
-case class Move(pos: Position,side: Side) extends StateTransition
+case class Move(pos: Position, side: Side) extends StateTransition
 
 //31337
