@@ -41,7 +41,7 @@ class CompactGridSuite extends FunSuite {
     assert(11 == setPointValueInBucket(b, 1, BLACK))//11 = 000..1011
   }//end test("setPointValueInBucket on various indices and values")
 
-  val emptyGrid : CompactGrid = new CompactGrid
+  val emptyGrid = new CompactGrid
   
   test("getIndex on various point values") {
     //test the first column

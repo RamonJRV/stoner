@@ -1,13 +1,13 @@
 package stoner.board
 
-import java.util.Arrays
+import scala.collection.immutable.Vector
 
 import scala.annotation.tailrec
 
 object CompactGrid {
   
   type Bucket  = Int
-  type GridRepr = Array[Bucket]
+  type GridRepr = Vector[Bucket]
   
   final val BITS_PER_POINT : Int = 2
   final val BUCKET_SIZE : Int = 32 // I can't find a scala Int.bitSize type function
@@ -23,9 +23,9 @@ object CompactGrid {
   def gridSizeToGridReprSize(c : Dimension, r : Dimension) : Int =
     (c*r)*BITS_PER_POINT/POINTS_PER_BUCKET + 1
     
-  def generateGridArray(dim : BoardDimension) : Array[Int] = dim match {
+  def generateGridArray(dim : BoardDimension) : GridRepr = dim match {
   	case BoardDimension(c,r) => {
-	  new Array[Int](gridSizeToGridReprSize(c,r))
+	    Vector.fill(gridSizeToGridReprSize(c,r))(EMPTY_VALUE)
   	}
   }//end def generateGridArray(dim : BoardDimension) : Array[Byte]
 
