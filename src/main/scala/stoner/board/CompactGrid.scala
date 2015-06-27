@@ -20,14 +20,11 @@ object CompactGrid {
   //10
   final val BLACK_VALUE : Int = 2
   
-  def gridSizeToGridReprSize(c : Dimension, r : Dimension) : Int =
-    (c*r)*BITS_PER_POINT/POINTS_PER_BUCKET + 1
+  def boardDimToGridReprSize(dim : BoardDimension) : Int =
+    (dim.column*dim.row)*BITS_PER_POINT/POINTS_PER_BUCKET + 1
     
-  def generateGridArray(dim : BoardDimension) : GridRepr = dim match {
-  	case BoardDimension(c,r) => {
-	    Vector.fill(gridSizeToGridReprSize(c,r))(EMPTY_VALUE)
-  	}
-  }//end def generateGridArray(dim : BoardDimension) : Array[Byte]
+  def generateGridArray(dim : BoardDimension) : GridRepr = 
+	    Vector.fill(boardDimToGridReprSize(dim))(EMPTY_VALUE)
 
   /** Sets the value of a single point within a bucket.  Note the only legal
    *  transitions are:
