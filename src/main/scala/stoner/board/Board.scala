@@ -2,7 +2,7 @@ package stoner.board
 
 import scala.annotation.tailrec
 
-import scala.collection.LinearSeq
+import scala.collection.immutable.LinearSeq
 import scala.collection.immutable.{Vector}
 
 import scala.collection.immutable.Set
@@ -92,15 +92,15 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
   /**A sequence of intermediate grid states from the initial empty board to
    * the most current state: grids.last.
    */
-  val grids = {
-    val zero : Grid = (new CompactGrid(boardDimension))
+  lazy val grids = {
+    val zero : Grid = new CompactGrid(boardDimension)
     
     transitions.scanLeft(zero)((g,t) => t match {
                                  case PosFlip(p,s) => g.set(p,s)
                                  case m: Move => Board.setStoneWithKill(m,g)})
   }//end val grids =
   
-  val currentGrid = grids.last
+  lazy val currentGrid = grids.last
   
   /**
    * Determines whether or not the specified Move is a suicide move.  A suicide
@@ -137,8 +137,7 @@ class Board(val transitions : LinearSeq[StateTransition] = LinearSeq[StateTransi
     grids.exists(_ == Board.setStoneWithKill(move, currentGrid))
     
   
-  def isCurrentTurn(side : Side) : Boolean = 
-    currentTurn == side
+  def isCurrentTurn(side : Side) : Boolean = currentTurn == side
   
   /**
    * Determines if the given move is a legl move according to the rules of Go.
