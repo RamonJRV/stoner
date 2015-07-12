@@ -16,8 +16,8 @@ libraryDependencies += "junit" % "junit" % "4.10" % "test"
 
 //libraryDependencies += "org.apache.commons" % "commons-math3" % "3.4"
 
-//libraryDependencies += "org.apache.spark" %% "spark-core" % "1.2.0" % "provided"
-libraryDependencies += "org.apache.spark" % "spark-mllib_2.10" % "1.2.0" % "provided"
+//libraryDependencies += "org.apache.spark" %% "spark-core" % "1.4.0" % "provided"
+libraryDependencies += "org.apache.spark" % "spark-mllib_2.10" % "1.4.0" % "provided"
 
 //logLevel := Level.Debug
 

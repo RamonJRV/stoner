@@ -7,7 +7,7 @@ Prerequisites
 
 1. Scala (2.10.4)
 2. sbt (0.13.7)
-3. apache spark cluster (1.2.0) - "spark-shell" application necessary for research scripts to run.
+3. apache spark cluster (1.4.0) - "spark-shell" application necessary for research scripts to run.
 4. Optional: ScalaIDE
 
 
