@@ -29,6 +29,10 @@ Optionally for ScalaIDE (in sbt):
 
     eclipse
 
+To use the code within apache spark run the following comand at the command line:
+
+    spark-shell --jars target/scala-2.10/stoner.jar
+
 Data Set
 --------
 Buy and unzip the [GoGoD](http://gogodonline.co.uk/) dataset .zip file in the stoner/src/main/resources directory.  Not strictly necessary, but all of the examples in the [wiki](https://github.com/RJRyV/stoner/wiki) will assume that those files exist.
