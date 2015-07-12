@@ -165,15 +165,22 @@ trait Grid {
   def isAlive(pos: Position) : Boolean = !groupLiberties(pos).isEmpty
 
   /**
+   * Iterates over all possible positions in the Grid.
+   */
+  def iteratePositions = {
+    (for(c <- Range(0,boardDimension.column);
+         r <- Range(0,boardDimension.row))
+      yield Position(c,r))
+  }
+  
+  def allPositions : Set[Position] = HashSet() ++ iteratePositions
+  
+  /**
    * Flattens the internal representation of the grid into a 1-D array of Sides.
    * The flattening happens in column major order, e.g. the first column is 
    * prepended to the second which is prepended to the third ...
    */
-  def flatten : IndexedSeq[Side] = 
-    (for(c <- Range(0,boardDimension.column);
-         r <- Range(0,boardDimension.row))
-      yield get(c,r))
-        
+  def flatten : IndexedSeq[Side] = iteratePositions map get
       
   private sealed trait FromSide[A] {
     def apply(side: Side): A
@@ -247,13 +254,6 @@ trait Grid {
   override def equals(o: Any) = o match {
     case that: Grid => that.hashCode == hashCode
     case _ => false
-  }
-  
-  def allPositions : Set[Position] = {
-    HashSet() ++
-    (for(c <- Range(0,boardDimension.column);
-         r <- Range(0,boardDimension.row))
-      yield Position(c,r))
   }
   
   /**
