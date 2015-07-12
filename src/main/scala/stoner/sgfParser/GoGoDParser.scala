@@ -49,8 +49,8 @@ object GoGoDParser {
    * @return the Games that were able to be parsed from .sgf files below file.
    * 
    */
-  def getGamesFromSGFFile(fileName : String): Array[Game] =
-    getGamesFromSGFFile(new File(fileName))
+//  def getGamesFromSGFFile(fileName : String): Array[Game] =
+//    getGamesFromSGFFile(new File(fileName))
     
   /**
    * Parses all of the .sgf files below file into Games.
