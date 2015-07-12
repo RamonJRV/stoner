@@ -72,7 +72,7 @@ object GameToData {
    * where the label is the winner of the game.  This sequence is useful for 
    * passing to a SparkContext to parallelize into an RDD.
    * 
-   * @param the games to be converted into a sequence of LabelPoint values
+   * @param the games to be converted into a sequence of LabeledPoint values
    * 
    * @return A sequence of LabelPoint where the label is the winner of each game
    * and the features are the board positions created after a move by the 
@@ -84,18 +84,23 @@ object GameToData {
     games.par.map(gameToWinnerLabeledPoints).flatten.toIndexedSeq
   
   /**
-   * Converts a game into a Seq of (Move, org.apache.spark.mllib.linalg.Vector).
-   * The Move is the next move given a Vector representation of the current
-   * move 
+   * Converts a game into a Seq of LabeledPoints created with: 
    * 
-   * @param the game to be converted into a sequence of (Move, Vector)
+   *     label : the next move represented by a Double that is within 0.0 
+   *             and col*row.  Note: the values are whole numbers and therefore
+   *             can work with multiclass classification.
+   *     features : the current positions with 1.0 being the value of "my" 
+   *                pieces, 0.0 being empty positions, and -1.0 being the value
+   *                of the oponents pieces.
    * 
-   * @return A sequence of (Move, Vector) where the label is the next move given
+   * @param the game to be converted into a sequence of LabeledPoint values
+   * 
+   * @return A sequence of LabeledPoint where the label is the next move given
    * the Grid as a feature represented by the Vector.
    * 
-   * @see Grid.flattenSparkVector
+   * @todo FIXME - unit testing, manual testing appears successful.
    */
-  def gameToMoveLabeledPoints(game : Game) : LinearSeq[(Move,Vector)] = {
+  def gameToMoveLabeledPoints(game : Game) : LinearSeq[LabeledPoint] = {
     
     def isMove(t : StateTransition) = t match {
       case Move(_,_) => true
@@ -111,9 +116,17 @@ object GameToData {
       case _ => Move(Position(0,0), BLACK)  //never happens because only Moves left
     }
     
+    def gridToFeature(side : Side, grid : Grid) = {
+      grid.iteratePositions.map(grid.get).map { s =>
+        if(s == side) 1.0
+        else if(s == side.opposite) -1.0
+        else 0.0
+      }.toArray
+    }
     
     
-    gridAndMove.map(x => (transToPosition(x._2), x._1.flattenSparkVector))
+    gridAndMove.map(x => (transToPosition(x._2), x._1))
+               .map(x => LabeledPoint(x._1.pos.toLabelClass(), new DenseVector(gridToFeature(x._1.side, x._2))))
   }//end def gameToLabeledPoints(game : Game) : Array[LabeledPoint]
   
 }//end object GameToData
