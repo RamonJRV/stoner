@@ -1,6 +1,6 @@
 stoner (as in [Go stone](http://en.wikipedia.org/wiki/Go_equipment#Stones), you [hippy](http://i.ytimg.com/vi/CWxgfTMLtc0/maxresdefault.jpg))
 ==================================
-A research project to develop an [automated](http://en.wikipedia.org/wiki/Artificial_intelligence) [Go](http://en.wikipedia.org/wiki/Go_(game)) player utilizing machine learning techniques rather than typical tree descent searches.  The primary language will be [Scala](http://www.scala-lang.org).
+A research project to develop an [automated](http://en.wikipedia.org/wiki/Artificial_intelligence) [Go](http://en.wikipedia.org/wiki/Go_(game)) player utilizing machine learning techniques rather than typical tree descent searches.  The primary language will be [Scala](http://www.scala-lang.org) and the research environment will be in [Apache Spark](http://spark.apache.org).
 
 I think there is mathematical poetry in Go and I want to teach a computer to contribute a verse.
 
